@@ -32,6 +32,8 @@ cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
 BAD IDEAS
 ===
 
+Don't use dissolutions such as these. :-)
+
 This will turn off SSL validation checking. This is not a good idea. Please do not do it.
 (really I'm only providing it as a reference for search engine seo so that people who are trying
 to figure out how to avoid doing that will end up here)
@@ -39,8 +41,6 @@ to figure out how to avoid doing that will end up here)
 ```javascript
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 ```
-
-Don't use solutions like
 
 The same dissolution from the terminal would be
 

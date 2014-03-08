@@ -4096,4 +4096,6 @@ var cas = module.exports = [
 ];
 module.exports.inject = function () {
   var opts = require('https').globalAgent.options;
-  if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }};
+  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }
+  opts.ca.__injected = true;
+};

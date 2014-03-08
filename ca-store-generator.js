@@ -130,7 +130,8 @@ function dumpCerts(certs) {
       + '\n];\n'
       + "module.exports.inject = function () {\n"
       + "  var opts = require('https').globalAgent.options;\n"
-      + "  if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }"
+      + "  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }\n"
+      + "  opts.ca.__injected = true;\n"
       + "};\n"
   );
   console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");

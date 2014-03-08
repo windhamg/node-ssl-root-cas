@@ -1,12 +1,12 @@
 {
   "name": "ssl-root-cas",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The module you need to solve node's SSL woes when including a custom certificate.",
   "main": "ssl-root-cas",
   "scripts": {
     "test": "node ca-store-generator.js",
     "prepublish": "node ca-store-generator.js; mv ssl-root-cas-latest.js ssl-root-cas.js",
-    "postinstall": "node ca-store-generator.js"
+    "postinstall": "node ca-store-generator.js; mv ssl-root-cas-latest.js latest.js"
   },
   "repository": {
     "type": "git",

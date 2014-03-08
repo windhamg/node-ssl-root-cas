@@ -4092,4 +4092,5 @@ module.exports = [
   "TZVHO8mvbaG0weyJ9rQPOLXiZNwlz6bb65pcmaHFCN795trV1lpFDMS3wrUU77QR/w4VtfX128a9\n" +
   "61qn8FYiqTxlVMYVqL2Gns2Dlmh6cYGJ4Qvh6hEbaAjMaZ7snkGeRDImeuKHCnE96+RapNLbxc3G\n" +
   "3mB/ufNPRJLvKrcYPqcZ2Qt9sTdBQrC6YB3y/gkRsPCHe6ed\n" +
-  "-----END CERTIFICATE-----\n"];
+  "-----END CERTIFICATE-----\n"
+];

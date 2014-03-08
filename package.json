@@ -1,0 +1,34 @@
+{
+  "name": "ssl-root-cas",
+  "version": "1.0.0",
+  "description": "The module you need to solve node's SSL woes when including a custom certificate.",
+  "main": "ssl-root-cas",
+  "scripts": {
+    "test": "node ca-store-generator.js",
+    "prepublish": "node ca-store-generator.js; mv ssl-root-cas-latest.js ssl-root-cas.js",
+    "postinstall": "node ca-store-generator.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coolaj86/node-ssl-root-cas.git"
+  },
+  "keywords": [
+    "SSL",
+    "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+    "CERT_UNTRUSTED",
+    "CAS",
+    "CA",
+    "ROOT",
+    "intermediate",
+    "leaf",
+    "error"
+  ],
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/coolaj86/node-ssl-root-cas/issues"
+  },
+  "homepage": "https://github.com/coolaj86/node-ssl-root-cas",
+  "dependencies": {
+    "request": "~2.34.0"
+  }
+}

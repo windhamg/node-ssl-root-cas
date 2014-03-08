@@ -24,9 +24,12 @@ var https = require('https')
   , cas
   ;
   
-cas = https.globalAgent.options.ca = https.globalAgent.options.ca || [];
+// This will add the well-known CAs
+// to `https.globalAgent.options.ca`
+require('ssl-root-cas').inject();
 
-cas = cas.concat(require('ssl-root-cas'));
+cas = https.globalAgent.options.ca;
+
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '01-cheap-ssl-intermediary-a.pem')));
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '02-cheap-ssl-intermediary-b.pem')));
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
@@ -39,10 +42,7 @@ If you want the latest certificates (downloaded as part of the postinstall proce
 you can require those instead like so:
 
 ```
-  , latest = require('ssl-root-cas/latest')
-  ;
-
-cas = cas.concat(latest);
+require('ssl-root-cas/latest').inject();
 ```
 
 BAD IDEAS

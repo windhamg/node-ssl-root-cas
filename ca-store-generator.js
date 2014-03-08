@@ -125,9 +125,13 @@ function dumpCerts(certs) {
   fs.writeFileSync(
     OUTFILE
   , HEADER
-      + 'module.exports = [\n'
+      + 'var cas = module.exports = [\n'
       + certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n')
       + '\n];\n'
+      + "module.exports.inject = function () {\n"
+      + "  var opts = require('https').globalAgent.options;\n"
+      + "  if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }"
+      + "};\n"
   );
   console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");
 }

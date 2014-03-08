@@ -4,7 +4,7 @@
  * generated from https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1
  */
 
-module.exports = [
+var cas = module.exports = [
   // GTE CyberTrust Global Root
   "-----BEGIN CERTIFICATE-----\n" +
   "MIICWjCCAcMCAgGlMA0GCSqGSIb3DQEBBAUAMHUxCzAJBgNVBAYTAlVTMRgwFgYDVQQKEw9HVEUg\n" +
@@ -4094,3 +4094,5 @@ module.exports = [
   "3mB/ufNPRJLvKrcYPqcZ2Qt9sTdBQrC6YB3y/gkRsPCHe6ed\n" +
   "-----END CERTIFICATE-----\n"
 ];
+var opts = require('https').globalAgent.options;
+if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }

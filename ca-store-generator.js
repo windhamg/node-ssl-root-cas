@@ -113,12 +113,21 @@ function parseCertData(lines) {
 }
 
 function dumpCerts(certs) {
+  certs.forEach(function (cert, i) {
+    var pathname = path.join(__dirname, 'pems', 'ca-' + i + '.pem')
+      ;
+
+    fs.writeFileSync(pathname, cert.quasiPEM());
+  });
+  console.info("Wrote " + certs.length + " certificates in '"
+    + path.join(__dirname, 'pems/').replace(/'/g, "\\'") + "'.");
+
   fs.writeFileSync(
-    OUTFILE,
-    HEADER +
-    'module.exports = [\n' +
-    certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n') +
-    '\n];\n'
+    OUTFILE
+  , HEADER
+      + 'module.exports = [\n'
+      + certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n')
+      + '\n];\n'
   );
   console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");
 }

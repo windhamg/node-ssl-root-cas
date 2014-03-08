@@ -11,6 +11,9 @@ out you'll be able to connect to that site just fine, but now when you try to co
 
 This module is the solution to your woes!
 
+FYI, I'm merely the publisher, not the author of this module.
+See here: https://groups.google.com/d/msg/nodejs/AjkHSYmiGYs/1LfNHbMhd48J
+
 Usage
 =====
 

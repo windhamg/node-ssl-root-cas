@@ -4094,5 +4094,6 @@ var cas = module.exports = [
   "3mB/ufNPRJLvKrcYPqcZ2Qt9sTdBQrC6YB3y/gkRsPCHe6ed\n" +
   "-----END CERTIFICATE-----\n"
 ];
-var opts = require('https').globalAgent.options;
-if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }
+module.exports.inject = function () {
+  var opts = require('https').globalAgent.options;
+  if (!opts.ca || opts.ca.length < 100) { opts.ca = (opts.ca||[]).concat(cas); }};

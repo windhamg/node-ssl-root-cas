@@ -23,10 +23,23 @@ var https = require('https')
   
 cas = https.globalAgent.options.ca = https.globalAgent.options.ca || [];
 
-cas = cas.concat(require('ssl-root-cas').getOnce());
+cas = cas.concat(require('ssl-root-cas'));
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '01-cheap-ssl-intermediary-a.pem')));
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '02-cheap-ssl-intermediary-b.pem')));
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
+```
+
+For the sake of version consistency this package ships with the CA certs that were
+available at the time it was published.
+
+If you want the latest certificates (downloaded as part of the postinstall process), 
+you can require those instead like so:
+
+```
+  , latest = require('ssl-root-cas/latest')
+  ;
+
+cas = cas.concat(latest);
 ```
 
 BAD IDEAS

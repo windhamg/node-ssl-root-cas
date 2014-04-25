@@ -128,6 +128,7 @@ function dumpCerts(certs) {
       + 'var cas = module.exports = [\n'
       + certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n')
       + '\n];\n'
+      + "module.exports.rootCas = cas;\n"
       + "module.exports.inject = function () {\n"
       + "  var opts = require('https').globalAgent.options;\n"
       + "  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }\n"
@@ -137,7 +138,7 @@ function dumpCerts(certs) {
       + "module.exports.addFile = function (filepath) {\n"
       + "  var opts = require('https').globalAgent.options;\n"
       + "  opts.ca = opts.ca || [];\n"
-      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepath.split(/\//g))));\n"
+      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepath.split(/\\//g))));\n"
       + "  return module.exports;\n"
       + "};\n"
   );

@@ -4104,7 +4104,9 @@ module.exports.inject = function () {
 module.exports.addFile = function (filepath) {
   var opts = require('https').globalAgent.options;
   var root = filepath[0] === '/' ? '/' : '';
+  var filepaths = filepath.split(/\//g);
+  if (root) { filepaths.unshift(root); }
   opts.ca = opts.ca || [];
-  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, (root + filepath).split(/\//g))));
+  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepaths)));
   return module.exports;
 };

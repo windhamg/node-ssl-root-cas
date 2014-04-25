@@ -138,8 +138,10 @@ function dumpCerts(certs) {
       + "module.exports.addFile = function (filepath) {\n"
       + "  var opts = require('https').globalAgent.options;\n"
       + "  var root = filepath[0] === '/' ? '/' : '';\n"
+      + "  var filepaths = filepath.split(/\\//g);\n"
+      + "  if (root) { filepaths.unshift(root); }\n"
       + "  opts.ca = opts.ca || [];\n"
-      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, (root + filepath).split(/\\//g))));\n"
+      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepaths)));\n"
       + "  return module.exports;\n"
       + "};\n"
   );

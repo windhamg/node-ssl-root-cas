@@ -133,6 +133,11 @@ function dumpCerts(certs) {
       + "  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }\n"
       + "  opts.ca.__injected = true;\n"
       + "};\n"
+      + "module.exports.addFile = function (filepath) {\n"
+      + "  var opts = require('https').globalAgent.options;\n"
+      + "  opts.ca = opts.ca || [];\n"
+      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepath.split(/\//g))));\n"
+      + "};\n"
   );
   console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");
 }

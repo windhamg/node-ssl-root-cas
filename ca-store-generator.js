@@ -132,11 +132,13 @@ function dumpCerts(certs) {
       + "  var opts = require('https').globalAgent.options;\n"
       + "  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }\n"
       + "  opts.ca.__injected = true;\n"
+      + "  return module.exports;\n"
       + "};\n"
       + "module.exports.addFile = function (filepath) {\n"
       + "  var opts = require('https').globalAgent.options;\n"
       + "  opts.ca = opts.ca || [];\n"
       + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepath.split(/\//g))));\n"
+      + "  return module.exports;\n"
       + "};\n"
   );
   console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");

@@ -137,8 +137,9 @@ function dumpCerts(certs) {
       + "};\n"
       + "module.exports.addFile = function (filepath) {\n"
       + "  var opts = require('https').globalAgent.options;\n"
+      + "  var root = filepath[0] === '/' ? '/' : '';\n"
       + "  opts.ca = opts.ca || [];\n"
-      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepath.split(/\\//g))));\n"
+      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, (root + filepath).split(/\\//g))));\n"
       + "  return module.exports;\n"
       + "};\n"
   );

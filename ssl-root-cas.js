@@ -4094,8 +4094,17 @@ var cas = module.exports = [
   "3mB/ufNPRJLvKrcYPqcZ2Qt9sTdBQrC6YB3y/gkRsPCHe6ed\n" +
   "-----END CERTIFICATE-----\n"
 ];
+module.exports.rootCas = cas;
 module.exports.inject = function () {
   var opts = require('https').globalAgent.options;
   if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }
   opts.ca.__injected = true;
+  return module.exports;
+};
+module.exports.addFile = function (filepath) {
+  var opts = require('https').globalAgent.options;
+  var root = filepath[0] === '/' ? '/' : '';
+  opts.ca = opts.ca || [];
+  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, (root + filepath).split(/\//g))));
+  return module.exports;
 };

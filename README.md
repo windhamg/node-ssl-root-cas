@@ -14,6 +14,18 @@ This module is the solution to your woes!
 FYI, I'm merely the publisher, not the author of this module.
 See here: https://groups.google.com/d/msg/nodejs/AjkHSYmiGYs/1LfNHbMhd48J
 
+The script downloads the same root CAs that are included with
+[Mozilla Firefox](http://www.mozilla.org/en-US/about/governance/policies/security-group/certs/included/),
+[Google Chrome](http://www.chromium.org/Home/chromium-security/root-ca-policy),
+[`libnss`](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS#CA_certificates_pre-loaded_into_NSS),
+and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)(suggested, not bundled):
+<https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1>
+
+**Other Implementations**
+
+  * Golang <https://github.com/agl/extract-nss-root-certs>
+  * Perl <https://github.com/bagder/curl/blob/master/lib/mk-ca-bundle.pl>
+
 Usage
 =====
 

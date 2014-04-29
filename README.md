@@ -18,8 +18,10 @@ The script downloads the same root CAs that are included with
 [Mozilla Firefox](http://www.mozilla.org/en-US/about/governance/policies/security-group/certs/included/),
 [Google Chrome](http://www.chromium.org/Home/chromium-security/root-ca-policy),
 [`libnss`](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS#CA_certificates_pre-loaded_into_NSS),
-and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)(suggested, not bundled):
+and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)\*:
 <https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1>
+
+\* OpenSSL doesn't actually bundle these CAs, but they suggest using them
 
 **Other Implementations**
 

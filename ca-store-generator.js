@@ -147,11 +147,15 @@ function dumpCerts(certs, filename) {
   console.info("Wrote '" + filename.replace(/'/g, "\\'") + "'.");
 }
 
-//Expects a filename as the second command line argument
-var outputFile = process.argv[2];
-if(outputFile == null) {
-    outputFile = path.join(__dirname, 'ssl-root-cas-latest.js');
+if (process.argv[2] == null) {
+    console.error("Error: No file specified");
+    console.info("Usage: %s <outputfile>", process.argv[1]);
+    console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
+    process.exit(3);
 }
+
+//Expects a filename as the second command line argument; made relative to directory of this file
+var outputFile = path.resolve(__dirname, process.argv[2]);
 
 console.info("Loading latest certificates from " + CERTDB_URL);
 request(CERTDB_URL, function (error, response, body) {

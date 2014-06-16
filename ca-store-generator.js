@@ -111,12 +111,10 @@ function parseCertData(lines) {
   return certs;
 }
 
-function dumpCerts(certs, filename) {
+function dumpCerts(certs, filename, pemsDir) {
   certs.forEach(function (cert, i) {
-    var pathname = path.join(__dirname, 'pems', 'ca-' + i + '.pem')
-      ;
-
-    fs.writeFileSync(pathname, cert.quasiPEM());
+    var pemsFile = path.join(pemsDir, 'ca-' + i + '.pem');
+    fs.writeFileSync(pemsFile, cert.quasiPEM());
   });
   console.info("Wrote " + certs.length + " certificates in '"
     + path.join(__dirname, 'pems/').replace(/'/g, "\\'") + "'.");
@@ -151,11 +149,16 @@ if (process.argv[2] == null) {
     console.error("Error: No file specified");
     console.info("Usage: %s <outputfile>", process.argv[1]);
     console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
+    console.info("Note that a 'pems/' directory will also be created at the same location as the <outputfile>, containing individual .pem files.");
     process.exit(3);
 }
 
-//Expects a filename as the second command line argument; made relative to directory of this file
+// main (combined) output file location, relative to this script's location
 var outputFile = path.resolve(__dirname, process.argv[2]);
+
+// pems/ output directory, in the same directory as the outputFile
+var outputPemsDir = path.resolve(outputFile, '../pems')
+
 
 console.info("Loading latest certificates from " + CERTDB_URL);
 request(CERTDB_URL, function (error, response, body) {
@@ -170,5 +173,5 @@ request(CERTDB_URL, function (error, response, body) {
   }
 
   var lines = body.split("\n");
-  dumpCerts(parseCertData(lines), outputFile);
+  dumpCerts(parseCertData(lines), outputFile, outputPemsDir);
 });

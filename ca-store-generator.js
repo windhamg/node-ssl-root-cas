@@ -6,7 +6,6 @@ var fs = require('fs')
   , path = require('path')
   , request = require('request')
   , CERTDB_URL = 'https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1'
-  , OUTFILE = path.join(__dirname, './ssl-root-cas-latest.js')
   , HEADER
   ;
 
@@ -112,7 +111,7 @@ function parseCertData(lines) {
   return certs;
 }
 
-function dumpCerts(certs) {
+function dumpCerts(certs, filename) {
   certs.forEach(function (cert, i) {
     var pathname = path.join(__dirname, 'pems', 'ca-' + i + '.pem')
       ;
@@ -123,7 +122,7 @@ function dumpCerts(certs) {
     + path.join(__dirname, 'pems/').replace(/'/g, "\\'") + "'.");
 
   fs.writeFileSync(
-    OUTFILE
+    filename
   , HEADER
       + 'var cas = module.exports = [\n'
       + certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n')
@@ -145,9 +144,16 @@ function dumpCerts(certs) {
       + "  return module.exports;\n"
       + "};\n"
   );
-  console.info("Wrote '" + OUTFILE.replace(/'/g, "\\'") + "'.");
+  console.info("Wrote '" + filename.replace(/'/g, "\\'") + "'.");
 }
 
+//Expects a filename as the second command line argument
+var outputFile = process.argv[2];
+if(outputFile == null) {
+    outputFile = path.join(__dirname, 'ssl-root-cas-latest.js');
+}
+
+console.info("Loading latest certificates from " + CERTDB_URL);
 request(CERTDB_URL, function (error, response, body) {
   if (error) {
     console.error(error.stacktrace);
@@ -160,5 +166,5 @@ request(CERTDB_URL, function (error, response, body) {
   }
 
   var lines = body.split("\n");
-  dumpCerts(parseCertData(lines));
+  dumpCerts(parseCertData(lines), outputFile);
 });

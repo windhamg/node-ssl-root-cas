@@ -34,10 +34,13 @@ Certificate.prototype.quasiPEM = function quasiPEM() {
     converted.writeUInt8(parseInt(bytes.shift(), 8), offset++);
   }
 
-  return '  // ' + this.name + '\n' +
-         '  "-----BEGIN CERTIFICATE-----\\n" +\n' +
-         converted.toString('base64').replace(/(.{1,76})/g, '  "$1\\n" +\n') +
-         '  "-----END CERTIFICATE-----\\n"';
+  return {
+    name: this.name
+  , value: '  // ' + this.name + '\n'
+      + '  "-----BEGIN CERTIFICATE-----\\n" +\n'
+      + converted.toString('base64').replace(/(.{1,76})/g, '  "$1\\n" +\n')
+      + '  "-----END CERTIFICATE-----\\n"'
+  };
 };
 
 function parseBody(current, lines) {
@@ -113,8 +116,12 @@ function parseCertData(lines) {
 
 function dumpCerts(certs, filename, pemsDir) {
   certs.forEach(function (cert, i) {
-    var pemsFile = path.join(pemsDir, 'ca-' + i + '.pem');
-    fs.writeFileSync(pemsFile, cert.quasiPEM());
+    var pem = cert.quasiPEM()
+      , pemName = pem.name.toLowerCase().replace(/\W/, '-').replace(/-+/, '-')
+      , pemsFile = path.join(pemsDir, pemName + '.pem')
+      ;
+
+    fs.writeFileSync(pemsFile, pem.value);
   });
   console.info("Wrote " + certs.length + " certificates in '"
     + path.join(__dirname, 'pems/').replace(/'/g, "\\'") + "'.");
@@ -123,7 +130,7 @@ function dumpCerts(certs, filename, pemsDir) {
     filename
   , HEADER
       + 'var cas = module.exports = [\n'
-      + certs.map(function (cert) { return cert.quasiPEM(); }).join(',\n\n')
+      + certs.map(function (cert) { return cert.quasiPEM().value; }).join(',\n\n')
       + '\n];\n'
       + "module.exports.rootCas = cas;\n"
       + "module.exports.inject = function () {\n"

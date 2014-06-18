@@ -81,31 +81,46 @@ function parseCertData(lines) {
     ;
 
   function parseLine(line) {
-    // nuke whitespace and comments
+    //
+    // Find & nuke whitespace and comments
+    //
     if (line.match(/^#|^\s*$/)) {
       return;
     }
 
+    //
+    // Find CERT
+    //
     if (line.match(/^CKA_CLASS CK_OBJECT_CLASS CKO_CERTIFICATE/)) {
       current = new Certificate();
+      return;
     }
 
-    if (current) {
-      match = line.match(/^CKA_LABEL UTF8 \"(.*)\"/);
-      if (match) {
-        current.name = match[1];
-      }
+    if (!current) {
+      return;
+    }
 
-      if (line.match(/^CKA_VALUE MULTILINE_OCTAL/)) {
-        finished = parseBody(current, lines);
-        if (finished) {
-          certs.push(finished);
-        }
-        else {
-          skipped++;
-        }
-        current = null;
+    //
+    // Find Name
+    //
+    match = line.match(/^CKA_LABEL UTF8 \"(.*)\"/);
+    if (match) {
+      current.name = decodeURIComponent(match[1]);
+      return;
+    }
+
+    //
+    // Find Body
+    //
+    if (line.match(/^CKA_VALUE MULTILINE_OCTAL/)) {
+      finished = parseBody(current, lines);
+      if (finished) {
+        certs.push(finished);
+      } else {
+        skipped += 1;
       }
+      current = null;
+      return;
     }
   }
 
@@ -122,7 +137,7 @@ function parseCertData(lines) {
 function dumpCerts(certs, filename, pemsDir) {
   certs.forEach(function (cert) {
     var pem = cert.quasiPEM()
-      , pemName = pem.name.toLowerCase().replace(/\W/g, '-').replace(/-+/g, '-')
+      , pemName = pem.name.toLowerCase().replace(/[\s\/]+/g, '-').replace(/-+/g, '-')
       , pemsFile = path.join(pemsDir, pemName + '.pem')
       ;
 
@@ -157,7 +172,7 @@ function dumpCerts(certs, filename, pemsDir) {
   console.info("Wrote '" + filename.replace(/'/g, "\\'") + "'.");
 }
 
-if (process.argv[2] == null) {
+if (process.argv[2] === null) {
   console.error("Error: No file specified");
   console.info("Usage: %s <outputfile>", process.argv[1]);
   console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
@@ -173,7 +188,7 @@ outputPemsDir = path.resolve(outputFile, '../pems');
 
 
 console.info("Loading latest certificates from " + CERTDB_URL);
-request(CERTDB_URL, function (error, response, body) {
+request.get(CERTDB_URL, function (error, response, body) {
   if (error) {
     console.error(error.stacktrace);
     process.exit(1);
@@ -186,7 +201,9 @@ request(CERTDB_URL, function (error, response, body) {
 
   var lines = body.split("\n")
     , certs = parseCertData(lines)
+    , pemsFile = path.join(outputPemsDir, 'mozilla-certdata.txt')
     ;
 
+  fs.writeFileSync(pemsFile, body);
   dumpCerts(certs, outputFile, outputPemsDir);
 });

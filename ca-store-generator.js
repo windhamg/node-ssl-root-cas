@@ -115,9 +115,9 @@ function parseCertData(lines) {
 }
 
 function dumpCerts(certs, filename, pemsDir) {
-  certs.forEach(function (cert, i) {
+  certs.forEach(function (cert) {
     var pem = cert.quasiPEM()
-      , pemName = pem.name.toLowerCase().replace(/\W/, '-').replace(/-+/, '-')
+      , pemName = pem.name.toLowerCase().replace(/\W/g, '-').replace(/-+/g, '-')
       , pemsFile = path.join(pemsDir, pemName + '.pem')
       ;
 

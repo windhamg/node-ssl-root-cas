@@ -74,18 +74,17 @@ function parseBody(current, lines) {
 
 function parseCertData(lines) {
   var certs = []
-    , line
     , current
     , skipped = 0
     , match
     , finished
     ;
 
-  while (lines.length > 0) {
-    line = lines.shift();
-
+  function parseLine(line) {
     // nuke whitespace and comments
-    if (line.match(/^#|^\s*$/)) continue;
+    if (line.match(/^#|^\s*$/)) {
+      return;
+    }
 
     if (line.match(/^CKA_CLASS CK_OBJECT_CLASS CKO_CERTIFICATE/)) {
       current = new Certificate();
@@ -108,6 +107,10 @@ function parseCertData(lines) {
         current = null;
       }
     }
+  }
+
+  while (lines.length > 0) {
+    parseLine(lines.shift());
   }
 
   console.info("Skipped %s untrusted certificates.", skipped);

@@ -7,6 +7,8 @@ var fs = require('fs')
   , request = require('request')
   , CERTDB_URL = 'https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1'
   , HEADER
+  , outputFile
+  , outputPemsDir
   ;
 
 HEADER =
@@ -153,18 +155,18 @@ function dumpCerts(certs, filename, pemsDir) {
 }
 
 if (process.argv[2] == null) {
-    console.error("Error: No file specified");
-    console.info("Usage: %s <outputfile>", process.argv[1]);
-    console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
-    console.info("Note that a 'pems/' directory will also be created at the same location as the <outputfile>, containing individual .pem files.");
-    process.exit(3);
+  console.error("Error: No file specified");
+  console.info("Usage: %s <outputfile>", process.argv[1]);
+  console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
+  console.info("Note that a 'pems/' directory will also be created at the same location as the <outputfile>, containing individual .pem files.");
+  process.exit(3);
 }
 
 // main (combined) output file location, relative to this script's location
-var outputFile = path.resolve(__dirname, process.argv[2]);
+outputFile = path.resolve(__dirname, process.argv[2]);
 
 // pems/ output directory, in the same directory as the outputFile
-var outputPemsDir = path.resolve(outputFile, '../pems')
+outputPemsDir = path.resolve(outputFile, '../pems');
 
 
 console.info("Loading latest certificates from " + CERTDB_URL);
@@ -179,6 +181,9 @@ request(CERTDB_URL, function (error, response, body) {
     process.exit(2);
   }
 
-  var lines = body.split("\n");
-  dumpCerts(parseCertData(lines), outputFile, outputPemsDir);
+  var lines = body.split("\n")
+    , certs = parseCertData(lines)
+    ;
+
+  dumpCerts(certs, outputFile, outputPemsDir);
 });

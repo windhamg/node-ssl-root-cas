@@ -192,6 +192,27 @@ and played around for an hour until it did.
 
 :-)
 
+File hierarchy:
+
+```
+webapps/
+└── vhosts
+    ├── aj.the.dj
+    │   └── ssl
+    │       ├── server.crt
+    │       └── server.key
+    ├── ballprovo.com
+    │   └── ssl
+    │       ├── server.crt
+    │       └── server.key
+    ├── server.js
+    └── ssl
+        ├── Geotrust Cross Root CA.txt
+        └── Rapid SSL CA.txt
+```
+
+
+`server.js`:
 ```javascript
 'use strict';
 
@@ -247,7 +268,7 @@ app.use('/', function (req, res) {
 sslOptions = {
   //SNICallback is passed the domain name, see NodeJS docs on TLS
   SNICallback: function (domain) {
-    console.log(domain);
+    console.log('SNI:', domain);
     return secureContexts[domain];
   }
   // fallback / default domain

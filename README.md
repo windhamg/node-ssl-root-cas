@@ -240,21 +240,19 @@ function getAppContext(domain) {
 
   // But for this demo we'll do this:
   return connect().use('/', function (req, res) {
+    console.log('req.vhost', JSON.stringify(req.vhost));
     res.end('<html><body><h1>Welcome to ' + domain + '!</h1></body></html>');
   });
-}
-
-function getSecureContext(domain) {
-  return crypto.createCredentials({
-    key:  fs.readFileSync(__dirname + '/' + domain + '/ssl/server.key')
-  , cert: fs.readFileSync(__dirname + '/' + domain + '/ssl/server.crt')
-  }).context;
 }
 
 [ 'aj.the.dj'
 , 'ballprovo.com'
 ].forEach(function (domain) {
-  secureContexts[domain] = getSecureContext(domain);
+  secureContexts[domain] = crypto.createCredentials({
+    key:  fs.readFileSync(__dirname + '/' + domain + '/ssl/server.key')
+  , cert: fs.readFileSync(__dirname + '/' + domain + '/ssl/server.crt')
+  }).context;
+
   app.use(vhost('*.' + domain, getAppContext(domain)));
   app.use(vhost(domain, getAppContext(domain)));
 });

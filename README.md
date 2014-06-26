@@ -143,3 +143,43 @@ cat server.csr
 ```
 
 That creates a sha-1 hash.
+
+When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt` (at least for the purposes of this mini-tutorial).
+
+You cannot use "bundled" certificates (`.pem`) with node.js.
+
+### the server
+
+Here's a complete working example:
+
+```javascript
+'use strict';
+
+var https = require('https')
+  , fs = require('fs')
+  , connect = require('connect')
+  , app = connect()
+  , sslOptions
+  , server
+  , port = 4080
+  ;
+
+require('ssl-root-cas/latest')
+  .inject()
+  .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
+  .addFile(__dirname + '/ssl/Rapid SSL CA.txt')
+  ;
+
+sslOptions = {
+  key: fs.readFileSync('./ssl/server.key')
+, cert: fs.readFileSync('./ssl/server.crt')
+};
+
+app.use('/', function (req, res) {
+  res.end('<html><body><h1>Hello World</h1></body></html>');
+});
+
+server = https.createServer(sslOptions, app).listen(port, function(){
+  console.log("Listening on " + server.address().port);
+});
+```

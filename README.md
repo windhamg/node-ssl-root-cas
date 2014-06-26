@@ -119,3 +119,27 @@ The same dissolution from the terminal would be
 export NODE_TLS_REJECT_UNAUTHORIZED="0"
 node my-service.js
 ```
+
+# Index
+
+Other information you might want to know while you're here.
+
+## Generating an SSL Cert
+
+Just in case you didn't know, here's how you do it:
+
+```
+openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr
+```
+
+**DO NOT FILL OUT** email address, challenge password, or optional company name
+
+However, you *should* fill out country name, FULL state name, locality name, organization name.
+
+*organizational unit* is optional.
+
+```
+cat server.csr
+```
+
+That creates a sha-1 hash.

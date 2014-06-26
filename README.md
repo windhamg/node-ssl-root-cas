@@ -180,6 +180,6 @@ app.use('/', function (req, res) {
 });
 
 server = https.createServer(sslOptions, app).listen(port, function(){
-  console.log("Listening on " + server.address().port);
+  console.log('Listening on https://' + server.address().address + ':' + server.address().port);
 });
 ```

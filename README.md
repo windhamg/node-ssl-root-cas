@@ -148,7 +148,7 @@ When you submit that to the likes of RapidSSL you'll get back an X.509 that you 
 
 You cannot use "bundled" certificates (`.pem`) with node.js.
 
-### the server
+### A single HTTPS server
 
 Here's a complete working example:
 
@@ -181,5 +181,81 @@ app.use('/', function (req, res) {
 
 server = https.createServer(sslOptions, app).listen(port, function(){
   console.log('Listening on https://' + server.address().address + ':' + server.address().port);
+});
+```
+
+### Multiple HTTPS servers using SNI
+
+I know this works - because I just bought two SSL certs from RapidSSL (through name.com),
+a Digital Ocean VPS,
+and played around for an hour until it did.
+
+:-)
+
+```javascript
+'use strict';
+
+var https = require('https')
+  , fs = require('fs')
+  , crypto = require('crypto')
+  , connect = require('connect')
+  , vhost = require('vhost')
+  , app = connect()
+  , secureContexts = {}
+  , sslOptions
+  , server
+  , port = 4080
+  ;
+
+require('ssl-root-cas/latest')
+  .inject()
+  .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
+  .addFile(__dirname + '/ssl/Rapid SSL CA.txt')
+  ;
+
+function getAppContext(domain) {
+  // Really you'd want to do this:
+  // return require(__dirname + '/' + domain + '/app.js');
+
+  // But for this demo we'll do this:
+  return connect().use('/', function (req, res) {
+    res.end('<html><body><h1>Welcome to ' + domain + '!</h1></body></html>');
+  });
+}
+
+function getSecureContext(domain) {
+  return crypto.createCredentials({
+    key:  fs.readFileSync(__dirname + '/' + domain + '/ssl/server.key')
+  , cert: fs.readFileSync(__dirname + '/' + domain + '/ssl/server.crt')
+  }).context;
+}
+
+[ 'aj.the.dj'
+, 'ballprovo.com'
+].forEach(function (domain) {
+  secureContexts[domain] = getSecureContext(domain);
+  app.use(vhost('*.' + domain, getAppContext(domain)));
+  app.use(vhost(domain, getAppContext(domain)));
+});
+
+// fallback / default domain
+app.use('/', function (req, res) {
+  res.end('<html><body><h1>Hello World</h1></body></html>');
+});
+
+//provide a SNICallback when you create the options for the https server
+sslOptions = {
+  //SNICallback is passed the domain name, see NodeJS docs on TLS
+  SNICallback: function (domain) {
+    console.log(domain);
+    return secureContexts[domain];
+  }
+  // fallback / default domain
+  , key:  fs.readFileSync(__dirname + '/aj.the.dj/ssl/server.key')
+  , cert: fs.readFileSync(__dirname + '/aj.the.dj/ssl/server.crt')
+};
+
+server = https.createServer(sslOptions, app).listen(port, function(){
+  console.log("Listening on " + server.address().port);
 });
 ```

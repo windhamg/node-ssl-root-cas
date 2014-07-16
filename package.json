@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node ca-store-generator.js ssl-root-cas-test.js",
     "prepublish": "node ca-store-generator.js ssl-root-cas.js",
-    "postinstall": "node ca-store-generator.js latest.js"
+    "postinstall": "node latest.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/coolaj86/node-ssl-root-cas",
   "dependencies": {
+    "es6-promise": "^1.0.0",
     "request": "~2.34.0"
   }
 }

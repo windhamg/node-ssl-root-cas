@@ -9,6 +9,7 @@ var fs = require('fs')
   , HEADER
   , outputFile
   , outputPemsDir
+  , Promise = require('es6-promise').Promise
   ;
 
 HEADER =
@@ -143,6 +144,7 @@ function dumpCerts(certs, filename, pemsDir) {
 
     fs.writeFileSync(pemsFile, pem.value);
   });
+
   console.info("Wrote " + certs.length + " certificates in '"
     + path.join(__dirname, 'pems/').replace(/'/g, "\\'") + "'.");
 
@@ -172,38 +174,62 @@ function dumpCerts(certs, filename, pemsDir) {
   console.info("Wrote '" + filename.replace(/'/g, "\\'") + "'.");
 }
 
-if (process.argv[2] === null) {
-  console.error("Error: No file specified");
-  console.info("Usage: %s <outputfile>", process.argv[1]);
-  console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
-  console.info("Note that a 'pems/' directory will also be created at the same location as the <outputfile>, containing individual .pem files.");
-  process.exit(3);
+function run(filename) {
+  return new Promise(function (resolve, reject) {
+    if (!filename) {
+      console.error("Error: No file specified");
+      console.info("Usage: %s <outputfile>", process.argv[1]);
+      console.info("   where <outputfile> is the name of the file to write to, relative to %s", process.argv[1]);
+      console.info("Note that a 'pems/' directory will also be created at the same location as the <outputfile>, containing individual .pem files.");
+      reject(3);
+      return;
+    }
+
+    // main (combined) output file location, relative to this script's location
+    outputFile = path.resolve(__dirname, filename);
+
+    // pems/ output directory, in the same directory as the outputFile
+    outputPemsDir = path.resolve(outputFile, '../pems');
+
+
+    console.info("Loading latest certificates from " + CERTDB_URL);
+    request.get(CERTDB_URL, function (error, response, body) {
+      if (error) {
+        console.error(error);
+        console.error(error.stacktrace);
+        reject({ code: 1, error: error });
+        return;
+      }
+
+      if (response.statusCode !== 200) {
+        console.error("Fetching failed with status code %s", response.statusCode);
+        reject({ code: 2, error: "Fetching failed with status code " + response.statusCode });
+        return;
+      }
+
+      var lines = body.split("\n")
+        , certs = parseCertData(lines)
+        , pemsFile = path.join(outputPemsDir, 'mozilla-certdata.txt')
+        ;
+
+      fs.writeFileSync(pemsFile, body);
+      dumpCerts(certs, outputFile, outputPemsDir);
+
+      resolve();
+    });
+  });
 }
 
-// main (combined) output file location, relative to this script's location
-outputFile = path.resolve(__dirname, process.argv[2]);
+module.exports.generate = run;
 
-// pems/ output directory, in the same directory as the outputFile
-outputPemsDir = path.resolve(outputFile, '../pems');
-
-
-console.info("Loading latest certificates from " + CERTDB_URL);
-request.get(CERTDB_URL, function (error, response, body) {
-  if (error) {
-    console.error(error.stacktrace);
-    process.exit(1);
-  }
-
-  if (response.statusCode !== 200) {
-    console.error("Fetching failed with status code %s", response.statusCode);
-    process.exit(2);
-  }
-
-  var lines = body.split("\n")
-    , certs = parseCertData(lines)
-    , pemsFile = path.join(outputPemsDir, 'mozilla-certdata.txt')
-    ;
-
-  fs.writeFileSync(pemsFile, body);
-  dumpCerts(certs, outputFile, outputPemsDir);
-});
+if (require.main === module) {
+  run(process.argv[2])
+    .then
+      (function () {
+        // something
+      }
+    , function (errcode) {
+        process.exit(errcode);
+      }
+    );
+}

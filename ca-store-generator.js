@@ -191,6 +191,9 @@ function run(filename) {
     // pems/ output directory, in the same directory as the outputFile
     outputPemsDir = path.resolve(outputFile, '../pems');
 
+    if (!fs.existsSync(outputPemsDir)) {
+      fs.mkdirSync(outputPemsDir);
+    } 
 
     console.info("Loading latest certificates from " + CERTDB_URL);
     request.get(CERTDB_URL, function (error, response, body) {

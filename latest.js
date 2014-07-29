@@ -7,7 +7,7 @@ var fs = require('fs')
   ;
 
 if (!fs.existsSync(latestFile)) {
-  console.log('needs latest', latestFile);
+  console.log('Needs latest SSL Root Certificate Authority data', latestFile);
   module.exports = require('./ssl-root-cas');
   generate(latestFile).then(function () {
     console.info('\n');
@@ -25,6 +25,5 @@ if (!fs.existsSync(latestFile)) {
     console.warn('');
   });
 } else {
-  console.log('has latest');
   module.exports = require('./ssl-root-cas-latest');
 }

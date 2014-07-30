@@ -138,10 +138,17 @@ function parseCertData(lines) {
 function dumpCerts(certs, filename, pemsDir) {
   certs.forEach(function (cert) {
     var pem = cert.quasiPEM()
-      , pemName = pem.name.toLowerCase().replace(/[\s\/]+/g, '-').replace(/-+/g, '-')
+      , pemName = pem.name.toLowerCase().replace(/[\\\s\/\(\)\.]+/g, '-').replace(/-+/g, '-')
       , pemsFile = path.join(pemsDir, pemName + '.pem')
       ;
 
+    /*
+    if (/[^\w\-]/.test(pemName)) {
+      //pemName = pemName.replace(/\\/g, '-');
+      //pemName = pemName.replace(/[^\w-]/g, '-');
+      console.log(pemName);
+    }
+    */
     fs.writeFileSync(pemsFile, pem.value);
   });
 

@@ -28,6 +28,11 @@ and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)\*:
   * Golang <https://github.com/agl/extract-nss-root-certs>
   * Perl <https://github.com/bagder/curl/blob/master/lib/mk-ca-bundle.pl>
 
+**Usage Examples**
+
+  * https://github.com/coolaj86/nodejs-self-signed-certificate-example
+  * https://github.com/coolaj86/nodejs-ssl-trusted-peer-example
+
 Usage
 =====
 

@@ -33,6 +33,13 @@ and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)\*:
   * https://github.com/coolaj86/nodejs-self-signed-certificate-example
   * https://github.com/coolaj86/nodejs-ssl-trusted-peer-example
 
+Install
+=====
+
+```javascript
+npm i ssl-root-cas --save
+```
+
 Usage
 =====
 

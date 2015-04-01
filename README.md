@@ -112,7 +112,46 @@ them, or you just prefer to
 `https.globalAgent.options.ca = require('ssl-root-cas').rootCas;`
 yourself, well, you can.
 
-BAD IDEAS
+Kinda Bad Ideas
+=====
+
+You could turn off ssl checking for a single request like so:
+
+```javascript
+    'use strict';
+    
+    var request = require('request');
+    var agentOptions;
+    var agent;
+    
+    agentOptions = {
+      host: "www.example.com"
+    , port: "443"
+    , path: '/'
+      // This allows the single bad certificate
+      // instead of making your entire node process completely, utterly 
+    , rejectUnauthorized: false
+    };
+
+    // If you were using a self-signed cert you would add this option:
+    // agentOptions.ca = [ selfSignedRootCaPemCrtBuffer ];
+
+    // For trusted-peer connections you would also add these 2 options:
+    // agentOptions.key = serverPemKeyBuffer;
+    // agentOptions.cert = serverPemCrtSignedBySelfSignedRootCaBuffer;
+    
+    agent = new https.Agent(agentOptions);
+    
+    request({
+      url: "https://www.example.com/api/endpoint"
+    , method: 'GET'
+    , agent: agent
+    }, function (err, resp, body) {
+      // ...
+    });
+```
+
+REALLY Bad Ideas
 ===
 
 Don't use dissolutions such as these. :-)

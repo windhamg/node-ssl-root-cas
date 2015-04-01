@@ -115,8 +115,6 @@ yourself, well, you can.
 Kinda Bad Ideas
 =====
 
-You could turn off ssl checking for a single request like so:
-
 ```javascript
     'use strict';
     
@@ -125,21 +123,12 @@ You could turn off ssl checking for a single request like so:
     var agent;
     
     agentOptions = {
-      host: "www.example.com"
-    , port: "443"
+      host: 'www.example.com'
+    , port: '443'
     , path: '/'
-      // This allows the single bad certificate
-      // instead of making your entire node process completely, utterly 
     , rejectUnauthorized: false
     };
 
-    // If you were using a self-signed cert you would add this option:
-    // agentOptions.ca = [ selfSignedRootCaPemCrtBuffer ];
-
-    // For trusted-peer connections you would also add these 2 options:
-    // agentOptions.key = serverPemKeyBuffer;
-    // agentOptions.cert = serverPemCrtSignedBySelfSignedRootCaBuffer;
-    
     agent = new https.Agent(agentOptions);
     
     request({
@@ -150,6 +139,25 @@ You could turn off ssl checking for a single request like so:
       // ...
     });
 ```
+
+By using an `agent` with `rejectUnauthorized` you at limit the security vulnerability to the requests that deal with that one site instead of making your entire node process completely, utterly insecure.
+
+### Other Options
+
+If you were using a self-signed cert you would add this option:
+
+```javascript
+    agentOptions.ca = [ selfSignedRootCaPemCrtBuffer ];
+```
+
+For trusted-peer connections you would also add these 2 options:
+
+```javascript
+    agentOptions.key = clientPemKeyBuffer;
+    agentOptions.cert = clientPemCrtSignedBySelfSignedRootCaBuffer;
+```
+
+
 
 REALLY Bad Ideas
 ===
@@ -170,6 +178,9 @@ The same dissolution from the terminal would be
 export NODE_TLS_REJECT_UNAUTHORIZED="0"
 node my-service.js
 ```
+
+It's unfortunate that `process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';` is even documented. It should only be used for debugging and should never make it into in sort of code that runs in the wild. Almost every library that runs atop `https` has a way of passing agent options through. Those that don't should be fixed.
+
 
 # Index
 

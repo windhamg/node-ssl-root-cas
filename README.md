@@ -35,7 +35,7 @@ cat \
 
 Note that you **should not** include the `root.pem` in the bundle and that the bundle should be constructed with the least authoritative certificate first - your server's certificate, followed by the furthest removed intermediate, and then the next closest to the root, etc.
 
-Also note that in the case of cross-signed certificates there may be more than one intermediate at equal distances, in which case either in that tier may come first.
+Also note that in the case of cross-signed certificates (typically only issued from new root certificate authorities) there may be more than one intermediate at equal distances, in which case either in that tier may come first.
 
 SSL Root CAs
 =================

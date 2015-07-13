@@ -253,7 +253,7 @@ That created a signing request with a sha-256 hash.
 
 When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least for the purposes of this mini-tutorial).
 
-You cannot use "bundled" certificates (multiple certs in a single file) with node.js.
+You **must** use a bundled certificate for your server (the server and intermediates, **not** root), but you cannot use bundles `ca` property.
 
 ### A single HTTPS server
 
@@ -262,31 +262,36 @@ Here's a complete working example:
 ```javascript
 'use strict';
 
-var https = require('https')
-  , fs = require('fs')
-  , connect = require('connect')
-  , app = connect()
-  , sslOptions
-  , server
-  , port = 4080
-  ;
+var https = require('https');
+var fs = require('fs');
+var express = require('express');
+var app = express();
+var sslOptions;
+var server;
+var port = 4080;
 
 require('ssl-root-cas/latest')
   .inject()
   .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
-  .addFile(__dirname + '/ssl/Rapid SSL CA.txt')
+  // NOTE: intermediate certificates should be bundled with
+  // the site's certificate, which is issued by the server
+  // when you connect. You only need to add them here if the
+  // server is misconfigured and you can't change it
+  //.addFile(__dirname + '/ssl/Rapid SSL CA.txt')
   ;
 
 sslOptions = {
-  key: fs.readFileSync('./ssl/server.key')
-, cert: fs.readFileSync('./ssl/server.crt')
+  key: fs.readFileSync('./ssl/privkey.pem')
+, cert: fs.readFileSync('./ssl/fullchain.pem')
 };
 
 app.use('/', function (req, res) {
   res.end('<html><body><h1>Hello World</h1></body></html>');
 });
 
-server = https.createServer(sslOptions, app).listen(port, function(){
+server = https.createServer(sslOptions);
+server.on('request', app);
+server.listen(port, function(){
   console.log('Listening on https://' + server.address().address + ':' + server.address().port);
 });
 ```
@@ -302,20 +307,22 @@ and played around for an hour until it did.
 File hierarchy:
 
 ```
-webapps/
-└── vhosts
+/etc/letsencrypt
+└── live
     ├── aj.the.dj
-    │   └── ssl
-    │       ├── server.crt
-    │       └── server.key
+    │   ├── cert.pem        // contains my server certificate
+    │   ├── chain.pem       // contains RapidSSL intermediate
+    │   ├── cert+chain.pem  // contains both
+    │   └── privkey.pem     // my private key
     ├── ballprovo.com
-    │   └── ssl
-    │       ├── server.crt
-    │       └── server.key
+    │   ├── cert.pem
+    │   ├── chain.pem
+    │   ├── cert+chain.pem
+    │   └── privkey.pem
     ├── server.js
     └── ssl
-        ├── Geotrust Cross Root CA.txt
-        └── Rapid SSL CA.txt
+        ├── Geotrust Cross Root CA.txt // the Root Authority
+        └── Rapid SSL CA.txt           // the Intermediate Authority
 ```
 
 
@@ -324,34 +331,33 @@ webapps/
 ```javascript
 'use strict';
 
-var https = require('https')
-  , http = require('http')
-  , fs = require('fs')
-  , crypto = require('crypto')
-  , connect = require('connect')
-  , vhost = require('vhost')
+var https = require('https');
+var http = require('http');
+var fs = require('fs');
+var crypto = require('crypto');
+var express = require('express');
+var vhost = require('vhost');
 
   // connect / express app
-  , app = connect()
+var app = express();
 
   // SSL Server
-  , secureContexts = {}
-  , secureOpts
-  , secureServer
-  , securePort = 4443
+var secureContexts = {};
+var secureOpts;
+var secureServer;
+var securePort = 4443;
 
   // force SSL upgrade server
-  , server
-  , port = 4080
+var server;
+var port = 4080;
 
   // the ssl domains I have
-  , domains = ['aj.the.dj', 'ballprovo.com']
-  ;
+var domains = ['aj.the.dj', 'ballprovo.com'];
 
 require('ssl-root-cas/latest')
   .inject()
   .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
-  .addFile(__dirname + '/ssl/Rapid SSL CA.txt')
+  //.addFile(__dirname + '/ssl/Rapid SSL CA.txt')
   ;
 
 function getAppContext(domain) {
@@ -367,8 +373,8 @@ function getAppContext(domain) {
 
 domains.forEach(function (domain) {
   secureContexts[domain] = crypto.createCredentials({
-    key:  fs.readFileSync(__dirname + '/' + domain + '/ssl/server.key')
-  , cert: fs.readFileSync(__dirname + '/' + domain + '/ssl/server.crt')
+    key:  fs.readFileSync(__dirname + '/' + domain + '/privkey.pem')
+  , cert: fs.readFileSync(__dirname + '/' + domain + '/cert+chain.pem')
   }).context;
 
   app.use(vhost('*.' + domain, getAppContext(domain)));
@@ -388,8 +394,8 @@ secureOpts = {
     return secureContexts[domain];
   }
   // fallback / default domain
-  , key:  fs.readFileSync(__dirname + '/aj.the.dj/ssl/server.key')
-  , cert: fs.readFileSync(__dirname + '/aj.the.dj/ssl/server.crt')
+  , key:  fs.readFileSync(__dirname + '/aj.the.dj/privkey.pem')
+  , cert: fs.readFileSync(__dirname + '/aj.the.dj/cert+chain.pem')
 };
 
 secureServer = https.createServer(secureOpts, app).listen(securePort, function(){

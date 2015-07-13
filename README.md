@@ -1,3 +1,38 @@
+IMPORTANT: Try this first
+=========
+
+2015-Aug-22: I just discovered that the most common reason you would have the kind of problems this module solves is actually due to failing to properly bundle the Intermediate CAs with the server certificate.
+
+```js
+// Consider this:
+var server https.createServer({
+  key: fs.readFileSync('privkey.pem', 'ascii')
+, cert: fs.readFileSync('cert.pem', 'ascii')
+});
+```
+
+Should probably be
+
+```js
+// Consider this:
+var server https.createServer({
+  key: fs.readFileSync('privkey.pem', 'ascii')
+, cert: fs.readFileSync('bundle.pem', 'ascii')
+});
+```
+
+Example `bundle.pem`
+
+```
+cat \
+ cert.pem \
+ intermediate-twice-removed.pem \
+ interemediate-once-removed.pem \
+ > bundle.pem
+```
+
+However, if you **need to add a non-standard Root CA**, then this is still the right module for you.
+
 SSL Root CAs
 =================
 

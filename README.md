@@ -9,6 +9,12 @@ you'll probably get an error like `UNABLE_TO_VERIFY_LEAF_SIGNATURE` and after yo
 out you'll be able to connect to that site just fine, but now when you try to connect to other sites you get
 `CERT_UNTRUSTED` or possibly other errors.
 
+**Common Errors**
+
+* `CERT_UNTRUSTED` - the common root CAs are missing, this module fixes that.
+* `UNABLE_TO_VERIFY_LEAF_SIGNATURE` could be either the same as the above, or the below
+* `unable to verify the first certificate` - the intermediate certificate wasn't bundled along with the server certificate, you'll need to fix that
+
 This module is the solution to your woes!
 
 FYI, I'm merely the publisher, not the author of this module.

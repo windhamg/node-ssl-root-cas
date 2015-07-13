@@ -182,7 +182,7 @@ node my-service.js
 It's unfortunate that `process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';` is even documented. It should only be used for debugging and should never make it into in sort of code that runs in the wild. Almost every library that runs atop `https` has a way of passing agent options through. Those that don't should be fixed.
 
 
-# Index
+# Appendix
 
 Other information you might want to know while you're here.
 

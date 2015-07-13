@@ -191,7 +191,7 @@ Other information you might want to know while you're here.
 Just in case you didn't know, here's how you do it:
 
 ```
-openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr
+openssl req -new -sha256 -newkey rsa:2048 -nodes -keyout server.key -out server.csr
 ```
 
 **DO NOT FILL OUT** email address, challenge password, or optional company name
@@ -204,11 +204,11 @@ However, you *should* fill out country name, FULL state name, locality name, org
 cat server.csr
 ```
 
-That creates a sha-1 hash.
+That created a signing request with a sha-256 hash.
 
-When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt` (at least for the purposes of this mini-tutorial).
+When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least for the purposes of this mini-tutorial).
 
-You cannot use "bundled" certificates (`.pem`) with node.js.
+You cannot use "bundled" certificates (multiple certs in a single file) with node.js.
 
 ### A single HTTPS server
 

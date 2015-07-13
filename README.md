@@ -4,20 +4,20 @@ IMPORTANT: Try this first
 2015-Aug-22: I just discovered that the most common reason you would have the kind of problems this module solves is actually due to failing to properly bundle the Intermediate CAs with the server certificate.
 
 ```js
-// Consider this:
+// INCORRECT (but might still work)
 var server https.createServer({
   key: fs.readFileSync('privkey.pem', 'ascii')
-, cert: fs.readFileSync('cert.pem', 'ascii')
+, cert: fs.readFileSync('cert.pem', 'ascii')   // a PEM containing ONLY the SERVER certificate
 });
 ```
 
 Should probably be
 
 ```js
-// Consider this:
+// CORRECT (should always work)
 var server https.createServer({
   key: fs.readFileSync('privkey.pem', 'ascii')
-, cert: fs.readFileSync('bundle.pem', 'ascii')
+, cert: fs.readFileSync('bundle.pem', 'ascii') // a PEM containing the SERVER and ALL INTERMEDIATES
 });
 ```
 
@@ -31,12 +31,12 @@ cat \
  > bundle.pem
 ```
 
-However, if you **need to add a non-standard Root CA**, then this is still the right module for you.
+Note that you **should not** include the `root.pem` in the bundle and that the bundle should be constructed with the least authoritative certificate first - your server's certificate, followed by the furthest removed intermediate, and then the next closest to the root. Also note that in the case of cross-signed certificates there may be more than one intermediate at equal distances, in which case either in that tier may come first.
 
 SSL Root CAs
 =================
 
-The module you need to solve node's SSL woes when including a custom certificate.
+The module you need to solve node's SSL woes when including a custom certificate. Particularly, if you need to add a **non-standard Root CA**, then this is the right module for you.
 
 Let's say you're trying to connect to a site with a cheap-o SSL cert -
 such as RapidSSL certificate from [name.com](http://name.com) (the **best** place to get your domains, btw) -

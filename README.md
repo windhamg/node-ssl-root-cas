@@ -1,7 +1,9 @@
 IMPORTANT: Try this first
 =========
 
-2015-Aug-22: I just discovered that the most common reason you would have the kind of problems this module solves is actually due to failing to properly bundle the Intermediate CAs with the server certificate.
+2015-Aug-22: I just discovered that the most common reason you would have the kind of problems this module solves is actually due to failing to **properly bundle the Intermediate CAs** with the server certificate.
+
+**Incorrect Example**
 
 ```js
 // INCORRECT (but might still work)
@@ -11,7 +13,7 @@ var server https.createServer({
 });
 ```
 
-Should probably be
+**Correct Example**
 
 ```js
 // CORRECT (should always work)
@@ -21,7 +23,7 @@ var server https.createServer({
 });
 ```
 
-Example `bundle.pem`
+**Example `bundle.pem`**
 
 ```
 cat \

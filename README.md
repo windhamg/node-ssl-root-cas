@@ -19,7 +19,7 @@ var server https.createServer({
 // CORRECT (should always work)
 var server https.createServer({
   key: fs.readFileSync('privkey.pem', 'ascii')
-, cert: fs.readFileSync('bundle.pem', 'ascii') // a PEM containing the SERVER and ALL INTERMEDIATES
+, cert: fs.readFileSync('fullchain.pem', 'ascii') // a PEM containing the SERVER and ALL INTERMEDIATES
 });
 ```
 
@@ -30,7 +30,7 @@ cat \
  cert.pem \
  intermediate-twice-removed.pem \
  interemediate-once-removed.pem \
- > bundle.pem
+ > fullchain.pem
 ```
 
 Note that you **should not** include the `root.pem` in the bundle and that the bundle should be constructed with the least authoritative certificate first - your server's certificate, followed by the furthest removed intermediate, and then the next closest to the root, etc.

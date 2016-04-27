@@ -23,7 +23,7 @@ var server https.createServer({
 });
 ```
 
-**Example `bundle.pem`**
+**Example `fullchain.pem`**
 
 ```
 cat \

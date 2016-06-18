@@ -200,7 +200,7 @@ function run(filename) {
 
     if (!fs.existsSync(outputPemsDir)) {
       fs.mkdirSync(outputPemsDir);
-    } 
+    }
 
     console.info("Loading latest certificates from " + CERTDB_URL);
     request.get(CERTDB_URL, function (error, response, body) {
@@ -214,6 +214,12 @@ function run(filename) {
       if (response.statusCode !== 200) {
         console.error("Fetching failed with status code %s", response.statusCode);
         reject({ code: 2, error: "Fetching failed with status code " + response.statusCode });
+        return;
+      }
+
+      if (response.headers['content-type'] !== 'text/plain') {
+        console.error("Fetching failed with incorrect content type %s", response.headers['content-type']);
+        reject({ code: 2, error: "Fetching failed with incorrect content type " + response.headers['content-type'] });
         return;
       }
 

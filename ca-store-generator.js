@@ -181,7 +181,7 @@ function dumpCerts(certs, filename, pemsDir) {
 }
 
 function run(filename) {
-  var PromiseA = require('es6-promise').Promise;
+  var PromiseA = require('bluebird').Promise;
 
   return new PromiseA(function (resolve, reject) {
     if (!filename) {

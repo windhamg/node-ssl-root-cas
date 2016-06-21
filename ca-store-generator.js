@@ -218,6 +218,12 @@ function run(filename) {
         return;
       }
 
+      if (response.headers['content-type'] !== 'text/plain') {
+        console.error("Fetching failed with incorrect content type %s", response.headers['content-type']);
+        reject({ code: 2, error: "Fetching failed with incorrect content type " + response.headers['content-type'] });
+        return;
+      }
+
       var lines = body.split("\n")
         , certs = parseCertData(lines)
         , pemsFile = path.join(outputPemsDir, 'mozilla-certdata.txt')

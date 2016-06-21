@@ -9,7 +9,6 @@ var fs = require('fs')
   , HEADER
   , outputFile
   , outputPemsDir
-  , Promise = require('es6-promise').Promise
   ;
 
 HEADER =
@@ -182,7 +181,9 @@ function dumpCerts(certs, filename, pemsDir) {
 }
 
 function run(filename) {
-  return new Promise(function (resolve, reject) {
+  var PromiseA = require('es6-promise').Promise;
+
+  return new PromiseA(function (resolve, reject) {
     if (!filename) {
       console.error("Error: No file specified");
       console.info("Usage: %s <outputfile>", process.argv[1]);
@@ -200,7 +201,7 @@ function run(filename) {
 
     if (!fs.existsSync(outputPemsDir)) {
       fs.mkdirSync(outputPemsDir);
-    } 
+    }
 
     console.info("Loading latest certificates from " + CERTDB_URL);
     request.get(CERTDB_URL, function (error, response, body) {

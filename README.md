@@ -23,6 +23,12 @@ var server https.createServer({
 });
 ```
 
+```bash
+npm -g install serve-https
+
+serve-https --cert fullchain.pem --key privkey.pem 
+```
+
 **Example `fullchain.pem`**
 
 ```

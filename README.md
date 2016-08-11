@@ -24,6 +24,7 @@ var server https.createServer({
 ```
 
 ```bash
+# Test your HTTPS effortlessly
 npm -g install serve-https
 
 serve-https --cert fullchain.pem --key privkey.pem 

@@ -27,8 +27,17 @@ var server https.createServer({
 # Test your HTTPS effortlessly
 npm -g install serve-https
 
-serve-https --cert fullchain.pem --key privkey.pem 
+serve-https --servername example.com --cert ./fullchain.pem --key ./privkey.pem
 ```
+
+You can debug the certificate chain with `openssl`:
+
+```bash
+openssl s_client -showcerts \
+  -connect example.com:443 \
+  -servername example.com
+```
+
 
 **Example `fullchain.pem`**
 
@@ -89,51 +98,107 @@ Install
 =====
 
 ```javascript
-npm i ssl-root-cas --save
+npm install ssl-root-cas --save
 ```
 
 Usage
 =====
 
+General usage:
+
+```js
+'use strict';
+var rootCas = require('ssl-root-cas/latest').create();
+
+// default for all https requests
+// (whether using https directly, request, or another module)
+require('https').globalAgent.options.ca = rootCas;
+```
+
+### CERT_UNTRUSTED
+
+`CERT_UNTRUSTED`
+
+**Old Versions of node.js**:
+
+If you have to run an old version of node, but need the latest CAs
+(i.e. you get `CERT_UNTRUSTED` on well-known and properly configured websites)
+then this alone should solve your problems:
+
+```javascript
+var rootCas = require('ssl-root-cas/latest').create();
+
+// fixes ALL https requests (whether using https directly or the request module)
+require('https').globalAgent.options.ca = rootCas;
+
+var secureContext = require('tls').createSecureContext({
+  ca: rootCas
+// ...
+});
+```
+
+**missing Root CA** (such as a company ca)
+
+If you have a newer version of node and still get `CERT_UNTRUSTED`, it's probably
+because you're testing against a self-signed or company-issued certificate.
+
+Follow the instructions above, but also use `addFile`, like this:
+
+```
+var rootCas = require('ssl-root-cas/latest').create();
+
+rootCas.addFile(__dirname + '/ssl/00-company-root-ca.pem');
+```
+
+### unable to verify the first certificate
+
+`unable to verify the first certificate`
+
+When you get this error it means that the webserver you are connecting to
+is misconfigured and did not include the intermediate certificates in the certificate
+it sent to you.
+
+You can work around this by adding the missing certificate:
+
 ```javascript
 'use strict';
- 
-// This will add the well-known CAs
-// to `https.globalAgent.options.ca`
-require('ssl-root-cas/latest')
-  .inject()
+
+var rootCas = require('ssl-root-cas/latest').create();
+
+rootCas
   .addFile(__dirname + '/ssl/01-cheap-ssl-intermediary-a.pem')
   .addFile(__dirname + '/ssl/02-cheap-ssl-intermediary-b.pem')
-  .addFile(__dirname + '/ssl/03-cheap-ssl-site.pem')
   ;
+
+// will work with all https requests will all libraries (i.e. request.js)
+require('https').globalAgent.options.ca = rootCas;
 ```
+
+### using the latest certificates
 
 For the sake of version consistency this package ships with the CA certs that were
 available at the time it was published,
 but for the sake of security I recommend you use the latest ones.
 
-If you want the latest certificates (downloaded as part of the postinstall process), 
+If you want the latest certificates (downloaded as part of the postinstall process),
 you can require those like so:
 
 ```
-require('ssl-root-cas/latest').inject();
+var rootCas = require('ssl-root-cas/latest').create();
+
+require('https').globalAgent.options.ca = rootCas;
 ```
 
 You can use the ones that shippped with package like so:
 
 ```
-require('ssl-root-cas').inject();
+var rootCas = require('ssl-root-cas').create();
+
+require('https').globalAgent.options.ca = rootCas;
 ```
 
 API
 ---
-
-### inject()
-
-I thought it might be rude to modify `https.globalAgent.options.ca` on `require`,
-so I afford you the opportunity to `inject()` the certs at your leisure.
-
-`inject()` keeps track of whether or not it's been run, so no worries about calling it twice.
 
 ### addFile(filepath)
 
@@ -149,10 +214,9 @@ require('ssl-root-cas/latest')
 is the same as
 
 ```javascript
-var https = require('https')
-  , cas
-  ;
- 
+var https = require('https');
+var cas;
+
 cas = https.globalAgent.options.ca || [];
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
 ```
@@ -164,16 +228,26 @@ them, or you just prefer to
 `https.globalAgent.options.ca = require('ssl-root-cas').rootCas;`
 yourself, well, you can.
 
+### inject()
+
+(deprecated)
+
+I thought it might be rude to modify `https.globalAgent.options.ca` on `require`,
+so I afford you the opportunity to `inject()` the certs at your leisure.
+
+`inject()` keeps track of whether or not it's been run, so no worries about calling it twice.
+
+
 Kinda Bad Ideas
 =====
 
 ```javascript
     'use strict';
-    
+
     var request = require('request');
     var agentOptions;
     var agent;
-    
+
     agentOptions = {
       host: 'www.example.com'
     , port: '443'
@@ -182,7 +256,7 @@ Kinda Bad Ideas
     };
 
     agent = new https.Agent(agentOptions);
-    
+
     request({
       url: "https://www.example.com/api/endpoint"
     , method: 'GET'

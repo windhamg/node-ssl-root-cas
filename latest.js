@@ -1,10 +1,9 @@
 'use strict';
 
-var fs = require('fs')
-  , path = require('path')
-  , generate = require('./ca-store-generator').generate
-  , latestFile = path.join(__dirname, 'ssl-root-cas-latest.js')
-  ;
+var fs = require('fs');
+var path = require('path');
+var generate = require('./ca-store-generator').generate;
+var latestFile = path.join(__dirname, 'ssl-root-cas-latest.js');
 
 if (!fs.existsSync(latestFile)) {
   console.log('Needs latest SSL Root Certificate Authority data', latestFile);

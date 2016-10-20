@@ -3,60 +3,9 @@
  *
  * generated from https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1
  */
+'use strict';
 
-var cas = module.exports = [
-  // Equifax Secure CA
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIDIDCCAomgAwIBAgIENd70zzANBgkqhkiG9w0BAQUFADBOMQswCQYDVQQGEwJVUzEQMA4GA1UE\n" +
-  "ChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2VydGlmaWNhdGUgQXV0aG9yaXR5\n" +
-  "MB4XDTk4MDgyMjE2NDE1MVoXDTE4MDgyMjE2NDE1MVowTjELMAkGA1UEBhMCVVMxEDAOBgNVBAoT\n" +
-  "B0VxdWlmYXgxLTArBgNVBAsTJEVxdWlmYXggU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eTCB\n" +
-  "nzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwV2xWGcIYu6gmi0fCG2RFGiYCh7+2gRvE4RiIcPR\n" +
-  "fM6fBeC4AfBONOziipUEZKzxa1NfBbPLZ4C/QgKO/t0BCezhABRP/PvwDN1Dulsr4R+AcJkVV5MW\n" +
-  "8Q+XarfCaCMczE1ZMKxRHjuvK9buY0V7xdlfUNLjUA86iOe/FP3gx7kCAwEAAaOCAQkwggEFMHAG\n" +
-  "A1UdHwRpMGcwZaBjoGGkXzBdMQswCQYDVQQGEwJVUzEQMA4GA1UEChMHRXF1aWZheDEtMCsGA1UE\n" +
-  "CxMkRXF1aWZheCBTZWN1cmUgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MQ0wCwYDVQQDEwRDUkwxMBoG\n" +
-  "A1UdEAQTMBGBDzIwMTgwODIyMTY0MTUxWjALBgNVHQ8EBAMCAQYwHwYDVR0jBBgwFoAUSOZo+SvS\n" +
-  "spXXR9gjIBBPM5iQn9QwHQYDVR0OBBYEFEjmaPkr0rKV10fYIyAQTzOYkJ/UMAwGA1UdEwQFMAMB\n" +
-  "Af8wGgYJKoZIhvZ9B0EABA0wCxsFVjMuMGMDAgbAMA0GCSqGSIb3DQEBBQUAA4GBAFjOKer89961\n" +
-  "zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y7qj/WsjTVbJmcVfewCHrPSqnI0kB\n" +
-  "BIZCe/zuf6IWUrVnZ9NA2zsmWLIodz2uFHdh1voqZiegDfqnc1zqcPGUIWVEX/r87yloqaKHee95\n" +
-  "70+sB3c4\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // Verisign Class 3 Public Primary Certification Authority
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIICPDCCAaUCEHC65B0Q2Sk0tjjKewPMur8wDQYJKoZIhvcNAQECBQAwXzELMAkGA1UEBhMCVVMx\n" +
-  "FzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFzcyAzIFB1YmxpYyBQcmltYXJ5\n" +
-  "IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTk2MDEyOTAwMDAwMFoXDTI4MDgwMTIzNTk1OVow\n" +
-  "XzELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFzcyAz\n" +
-  "IFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIGfMA0GCSqGSIb3DQEBAQUA\n" +
-  "A4GNADCBiQKBgQDJXFme8huKARS0EN8EQNvjV69qRUCPhAwL0TPZ2RHP7gJYHyX3KqhEBarsAx94\n" +
-  "f56TuZoAqiN91qyFomNFx3InzPRMxnVx0jnvT0Lwdd8KkMaOIG+YD/isI19wKTakyYbnsZogy1Ol\n" +
-  "hec9vn2a/iRFM9x2Fe0PonFkTGUugWhFpwIDAQABMA0GCSqGSIb3DQEBAgUAA4GBALtMEivPLCYA\n" +
-  "TxQT3ab7/AoRhIzzKBxnki98tsX63/Dolbwdj2wsqFHMc9ikwFPwTtYmwHYBV4GSXiHx0bH/59Ah\n" +
-  "WM1pF+NEHJwZRDmJXNycAA9WjQKZ7aKQRUzkuxCkPfAyAw7xzvjoyVGM5mKf5p/AfbdynMk2Omuf\n" +
-  "Tqj/ZA1k\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // Verisign Class 2 Public Primary Certification Authority - G2
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIDAzCCAmwCEQC5L2DMiJ+hekYJuFtwbIqvMA0GCSqGSIb3DQEBBQUAMIHBMQswCQYDVQQGEwJV\n" +
-  "UzEXMBUGA1UEChMOVmVyaVNpZ24sIEluYy4xPDA6BgNVBAsTM0NsYXNzIDIgUHVibGljIFByaW1h\n" +
-  "cnkgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMjE6MDgGA1UECxMxKGMpIDE5OTggVmVyaVNp\n" +
-  "Z24sIEluYy4gLSBGb3IgYXV0aG9yaXplZCB1c2Ugb25seTEfMB0GA1UECxMWVmVyaVNpZ24gVHJ1\n" +
-  "c3QgTmV0d29yazAeFw05ODA1MTgwMDAwMDBaFw0yODA4MDEyMzU5NTlaMIHBMQswCQYDVQQGEwJV\n" +
-  "UzEXMBUGA1UEChMOVmVyaVNpZ24sIEluYy4xPDA6BgNVBAsTM0NsYXNzIDIgUHVibGljIFByaW1h\n" +
-  "cnkgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMjE6MDgGA1UECxMxKGMpIDE5OTggVmVyaVNp\n" +
-  "Z24sIEluYy4gLSBGb3IgYXV0aG9yaXplZCB1c2Ugb25seTEfMB0GA1UECxMWVmVyaVNpZ24gVHJ1\n" +
-  "c3QgTmV0d29yazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAp4gBIXQs5xoD8JjhlzwPIQjx\n" +
-  "nNuX6Zr8wgQGE75fUsjMHiwSViy4AWkszJkfrbCWrnkE8hM5wXuYuggs6MKEEyyqaekJ9MepAqRC\n" +
-  "wiNPStjwDqL7MWzJ5m+ZJwf15vRMeJ5t60aG+rmGyVTyssSv1EYcWskVMP8NbPUtDm3Of3cCAwEA\n" +
-  "ATANBgkqhkiG9w0BAQUFAAOBgQByLvl/0fFx+8Se9sVeUYpAmLho+Jscg9jinb3/7aHmZuovCfTK\n" +
-  "1+qlK5X2JGCGTUQug6XELaDTrnhpb3LabK4I8GOSN+a7xDAXrXfMSTWqz9iP0b63GJZHc2pUIjRk\n" +
-  "LbYWm1lbtFFZOrMLFPQS32eg9K0yZF6xRnInjBJ7xUS0rg==\n" +
-  "-----END CERTIFICATE-----\n",
-
+var originalCas = [
   // GlobalSign Root CA
   "-----BEGIN CERTIFICATE-----\n" +
   "MIIDdTCCAl2gAwIBAgILBAAAAAABFUtaw5QwDQYJKoZIhvcNAQEFBQAwVzELMAkGA1UEBhMCQkUx\n" +
@@ -208,38 +157,6 @@ var cas = module.exports = [
   "hbgF/X++ZRGjD8ACtPhSNzkE1akxehi/oCr0Epn3o0WC4zxe9Z2etciefC7IpJ5OCBRLbf1wbWsa\n" +
   "Y71k5h+3zvDyny67G7fyUIhzksLi4xaNmjICq44Y3ekQEe5+NauQrz4wlHrQMz2nZQ/1/I6eYs9H\n" +
   "RCwBXbsdtTLSR9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // Equifax Secure Global eBusiness CA
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIICkDCCAfmgAwIBAgIBATANBgkqhkiG9w0BAQQFADBaMQswCQYDVQQGEwJVUzEcMBoGA1UEChMT\n" +
-  "RXF1aWZheCBTZWN1cmUgSW5jLjEtMCsGA1UEAxMkRXF1aWZheCBTZWN1cmUgR2xvYmFsIGVCdXNp\n" +
-  "bmVzcyBDQS0xMB4XDTk5MDYyMTA0MDAwMFoXDTIwMDYyMTA0MDAwMFowWjELMAkGA1UEBhMCVVMx\n" +
-  "HDAaBgNVBAoTE0VxdWlmYXggU2VjdXJlIEluYy4xLTArBgNVBAMTJEVxdWlmYXggU2VjdXJlIEds\n" +
-  "b2JhbCBlQnVzaW5lc3MgQ0EtMTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuucXkAJlsTRV\n" +
-  "PEnCUdXfp9E3j9HngXNBUmCbnaEXJnitx7HoJpQytd4zjTov2/KaelpzmKNc6fuKcxtc58O/gGzN\n" +
-  "qfTWK8D3+ZmqY6KxRwIP1ORROhI8bIpaVIRw28HFkM9yRcuoWcDNM50/o5brhTMhHD4ePmBudpxn\n" +
-  "hcXIw2ECAwEAAaNmMGQwEQYJYIZIAYb4QgEBBAQDAgAHMA8GA1UdEwEB/wQFMAMBAf8wHwYDVR0j\n" +
-  "BBgwFoAUvqigdHJQa0S3ySPY+6j/s1draGwwHQYDVR0OBBYEFL6ooHRyUGtEt8kj2Puo/7NXa2hs\n" +
-  "MA0GCSqGSIb3DQEBBAUAA4GBADDiAVGqx+pf2rnQZQ8w1j7aDRRJbpGTJxQx78T3LUX47Me/okEN\n" +
-  "I7SS+RkAZ70Br83gcfxaz2TE4JaY0KNA4gGK7ycH8WUBikQtBmV1UsCGECAhX2xrD2yuCRyv8qIY\n" +
-  "NMR1pHMc8Y3c7635s3a0kr/clRAevsvIO1qEYBlWlKlV\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // Equifax Secure eBusiness CA 1
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIICgjCCAeugAwIBAgIBBDANBgkqhkiG9w0BAQQFADBTMQswCQYDVQQGEwJVUzEcMBoGA1UEChMT\n" +
-  "RXF1aWZheCBTZWN1cmUgSW5jLjEmMCQGA1UEAxMdRXF1aWZheCBTZWN1cmUgZUJ1c2luZXNzIENB\n" +
-  "LTEwHhcNOTkwNjIxMDQwMDAwWhcNMjAwNjIxMDQwMDAwWjBTMQswCQYDVQQGEwJVUzEcMBoGA1UE\n" +
-  "ChMTRXF1aWZheCBTZWN1cmUgSW5jLjEmMCQGA1UEAxMdRXF1aWZheCBTZWN1cmUgZUJ1c2luZXNz\n" +
-  "IENBLTEwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAM4vGbwXt3fek6lfWg0XTzQaDJj0ItlZ\n" +
-  "1MRoRvC0NcWFAyDGr0WlIVFFQesWWDYyb+JQYmT5/VGcqiTZ9J2DKocKIdMSODRsjQBuWqDZQu4a\n" +
-  "IZX5UkxVWsUPOE9G+m34LjXWHXzr4vCwdYDIqROsvojvOm6rXyo4YgKwEnv+j6YDAgMBAAGjZjBk\n" +
-  "MBEGCWCGSAGG+EIBAQQEAwIABzAPBgNVHRMBAf8EBTADAQH/MB8GA1UdIwQYMBaAFEp4MlIR21kW\n" +
-  "Nl7fwRQ2QGpHfEyhMB0GA1UdDgQWBBRKeDJSEdtZFjZe38EUNkBqR3xMoTANBgkqhkiG9w0BAQQF\n" +
-  "AAOBgQB1W6ibAxHm6VZMzfmpTMANmvPMZWnmJXbMWbfWVMMdzZmsGd20hdXgPfxiIKeES1hl8eL5\n" +
-  "lSE/9dR+WB5Hh1Q+WKG1tfgq73HnvMP2sUlG4tega+VWeponmHxGYhTnyfxuAxJ5gDgdSIKN/Bf+\n" +
-  "KpYrtWKmpj29f5JZzVoqgrI3eQ==\n" +
   "-----END CERTIFICATE-----\n",
 
   // AddTrust Low-Value Services Root
@@ -1430,29 +1347,6 @@ var cas = module.exports = [
   "U/7dIOA1mjbRxwG55tzd8/8dLDoWV9mSOdY=\n" +
   "-----END CERTIFICATE-----\n",
 
-  // IGC/A
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIEAjCCAuqgAwIBAgIFORFFEJQwDQYJKoZIhvcNAQEFBQAwgYUxCzAJBgNVBAYTAkZSMQ8wDQYD\n" +
-  "VQQIEwZGcmFuY2UxDjAMBgNVBAcTBVBhcmlzMRAwDgYDVQQKEwdQTS9TR0ROMQ4wDAYDVQQLEwVE\n" +
-  "Q1NTSTEOMAwGA1UEAxMFSUdDL0ExIzAhBgkqhkiG9w0BCQEWFGlnY2FAc2dkbi5wbS5nb3V2LmZy\n" +
-  "MB4XDTAyMTIxMzE0MjkyM1oXDTIwMTAxNzE0MjkyMlowgYUxCzAJBgNVBAYTAkZSMQ8wDQYDVQQI\n" +
-  "EwZGcmFuY2UxDjAMBgNVBAcTBVBhcmlzMRAwDgYDVQQKEwdQTS9TR0ROMQ4wDAYDVQQLEwVEQ1NT\n" +
-  "STEOMAwGA1UEAxMFSUdDL0ExIzAhBgkqhkiG9w0BCQEWFGlnY2FAc2dkbi5wbS5nb3V2LmZyMIIB\n" +
-  "IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsh/R0GLFMzvABIaIs9z4iPf930Pfeo2aSVz2\n" +
-  "TqrMHLmh6yeJ8kbpO0px1R2OLc/mratjUMdUC24SyZA2xtgv2pGqaMVy/hcKshd+ebUyiHDKcMCW\n" +
-  "So7kVc0dJ5S/znIq7Fz5cyD+vfcuiWe4u0dzEvfRNWk68gq5rv9GQkaiv6GFGvm/5P9JhfejcIYy\n" +
-  "HF2fYPepraX/z9E0+X1bF8bc1g4oa8Ld8fUzaJ1O/Id8NhLWo4DoQw1VYZTqZDdH6nfK0LJYBcNd\n" +
-  "frGoRpAxVs5wKpayMLh35nnAvSk7/ZR3TL0gzUEl4C7HG7vupARB0l2tEmqKm0f7yd1GQOGdPDPQ\n" +
-  "tQIDAQABo3cwdTAPBgNVHRMBAf8EBTADAQH/MAsGA1UdDwQEAwIBRjAVBgNVHSAEDjAMMAoGCCqB\n" +
-  "egF5AQEBMB0GA1UdDgQWBBSjBS8YYFDCiQrdKyFP/45OqDAxNjAfBgNVHSMEGDAWgBSjBS8YYFDC\n" +
-  "iQrdKyFP/45OqDAxNjANBgkqhkiG9w0BAQUFAAOCAQEABdwm2Pp3FURo/C9mOnTgXeQp/wYHE4RK\n" +
-  "q89toB9RlPhJy3Q2FLwV3duJL92PoF189RLrn544pEfMs5bZvpwlqwN+Mw+VgQ39FuCIvjfwbF3Q\n" +
-  "MZsyK10XZZOYYLxuj7GoPB7ZHPOpJkL5ZB3C55L29B5aqhlSXa/oovdgoPaN8In1buAKBQGVyYsg\n" +
-  "Crpa/JosPL3Dt8ldeCUFP1YUmwza+zpI/pdpXsoQhvdOlgQITeywvl3cO45Pwf2aNjSaTFR+FwNI\n" +
-  "lQgRHAdvhQh+XU3Endv7rs6y0bO4g2wdsrN58dhwmX7wEwLOXt1R0982gaEbeC9xs/FZTEYYKKuF\n" +
-  "0mBWWg==\n" +
-  "-----END CERTIFICATE-----\n",
-
   // Security Communication EV RootCA1
   "-----BEGIN CERTIFICATE-----\n" +
   "MIIDfTCCAmWgAwIBAgIBADANBgkqhkiG9w0BAQUFADBgMQswCQYDVQQGEwJKUDElMCMGA1UEChMc\n" +
@@ -1493,31 +1387,6 @@ var cas = module.exports = [
   "+vg1YFkCExh8vPtNsCBtQ7tgMHpnM1zFmdH4LTlSc/uMqpclXHLZCB6rTjzjgTGfA6b7wP4piFXa\n" +
   "hNVQA7bihKOmNqoROgHhGEvWRGizPflTdISzRpFGlgC3gCy24eMQ4tui5yiPAZZiFj4A4xylNoEY\n" +
   "okxSdsARo27mHbrjWr42U8U+dY+GaSlYU7Wcu2+fXMUY7N0v4ZjJ/L7fCg0=\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // S-TRUST Authentication and Encryption Root CA 2005 PN
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIEezCCA2OgAwIBAgIQNxkY5lNUfBq1uMtZWts1tzANBgkqhkiG9w0BAQUFADCBrjELMAkGA1UE\n" +
-  "BhMCREUxIDAeBgNVBAgTF0JhZGVuLVd1ZXJ0dGVtYmVyZyAoQlcpMRIwEAYDVQQHEwlTdHV0dGdh\n" +
-  "cnQxKTAnBgNVBAoTIERldXRzY2hlciBTcGFya2Fzc2VuIFZlcmxhZyBHbWJIMT4wPAYDVQQDEzVT\n" +
-  "LVRSVVNUIEF1dGhlbnRpY2F0aW9uIGFuZCBFbmNyeXB0aW9uIFJvb3QgQ0EgMjAwNTpQTjAeFw0w\n" +
-  "NTA2MjIwMDAwMDBaFw0zMDA2MjEyMzU5NTlaMIGuMQswCQYDVQQGEwJERTEgMB4GA1UECBMXQmFk\n" +
-  "ZW4tV3VlcnR0ZW1iZXJnIChCVykxEjAQBgNVBAcTCVN0dXR0Z2FydDEpMCcGA1UEChMgRGV1dHNj\n" +
-  "aGVyIFNwYXJrYXNzZW4gVmVybGFnIEdtYkgxPjA8BgNVBAMTNVMtVFJVU1QgQXV0aGVudGljYXRp\n" +
-  "b24gYW5kIEVuY3J5cHRpb24gUm9vdCBDQSAyMDA1OlBOMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\n" +
-  "MIIBCgKCAQEA2bVKwdMz6tNGs9HiTNL1toPQb9UY6ZOvJ44TzbUlNlA0EmQpoVXhOmCTnijJ4/Ob\n" +
-  "4QSwI7+Vio5bG0F/WsPoTUzVJBY+h0jUJ67m91MduwwA7z5hca2/OnpYH5Q9XIHV1W/fuJvS9eXL\n" +
-  "g3KSwlOyggLrra1fFi2SU3bxibYs9cEv4KdKb6AwajLrmnQDaHgTncovmwsdvs91DSaXm8f1Xgqf\n" +
-  "eN+zvOyauu9VjxuapgdjKRdZYgkqeQd3peDRF2npW932kKvimAoA0SVtnteFhy+S8dF2g08LOlk3\n" +
-  "KC8zpxdQ1iALCvQm+Z845y2kuJuJja2tyWp9iRe79n+Ag3rm7QIDAQABo4GSMIGPMBIGA1UdEwEB\n" +
-  "/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgEGMCkGA1UdEQQiMCCkHjAcMRowGAYDVQQDExFTVFJv\n" +
-  "bmxpbmUxLTIwNDgtNTAdBgNVHQ4EFgQUD8oeXHngovMpttKFswtKtWXsa1IwHwYDVR0jBBgwFoAU\n" +
-  "D8oeXHngovMpttKFswtKtWXsa1IwDQYJKoZIhvcNAQEFBQADggEBAK8B8O0ZPCjoTVy7pWMciDMD\n" +
-  "pwCHpB8gq9Yc4wYfl35UvbfRssnV2oDsF9eK9XvCAPbpEW+EoFolMeKJ+aQAPzFoLtU96G7m1R08\n" +
-  "P7K9n3frndOMusDXtk3sU5wPBG7qNWdX4wple5A64U8+wwCSersFiXOMy6ZNwPv2AtawB6MDwidA\n" +
-  "nwzkhYItr5pCHdDHjfhA7p0GVxzZotiAFP7hYy0yh9WUUpY6RsZxlj33mA6ykaqP2vROJAA5Veit\n" +
-  "F7nTNCtKqUDMFypVZUF0Qn71wK/Ik63yGFs9iQzbRzkk+OBM8h+wPQrKBU6JIRrjKpms/H+h8Q8b\n" +
-  "Hz2eBIPdltkdOpQ=\n" +
   "-----END CERTIFICATE-----\n",
 
   // Microsec e-Szigno Root CA
@@ -1799,37 +1668,6 @@ var cas = module.exports = [
   "wDX3OaJdZtB7WZ+oRxKaJyOkLY4ng5IgodcVf/EuGO70SH8vf/GhGLWhC5SgYiAynB321O+/TIho\n" +
   "-----END CERTIFICATE-----\n",
 
-  // EBG Elektronik Sertifika Hizmet Sa\xC4\x9Flay\xc4\xb1\x63\xc4\xb1s\xc4\xb1
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIF5zCCA8+gAwIBAgIITK9zQhyOdAIwDQYJKoZIhvcNAQEFBQAwgYAxODA2BgNVBAMML0VCRyBF\n" +
-  "bGVrdHJvbmlrIFNlcnRpZmlrYSBIaXptZXQgU2HEn2xhecSxY8Sxc8SxMTcwNQYDVQQKDC5FQkcg\n" +
-  "QmlsacWfaW0gVGVrbm9sb2ppbGVyaSB2ZSBIaXptZXRsZXJpIEEuxZ4uMQswCQYDVQQGEwJUUjAe\n" +
-  "Fw0wNjA4MTcwMDIxMDlaFw0xNjA4MTQwMDMxMDlaMIGAMTgwNgYDVQQDDC9FQkcgRWxla3Ryb25p\n" +
-  "ayBTZXJ0aWZpa2EgSGl6bWV0IFNhxJ9sYXnEsWPEsXPEsTE3MDUGA1UECgwuRUJHIEJpbGnFn2lt\n" +
-  "IFRla25vbG9qaWxlcmkgdmUgSGl6bWV0bGVyaSBBLsWeLjELMAkGA1UEBhMCVFIwggIiMA0GCSqG\n" +
-  "SIb3DQEBAQUAA4ICDwAwggIKAoICAQDuoIRh0DpqZhAy2DE4f6en5f2h4fuXd7hxlugTlkaDT7by\n" +
-  "X3JWbhNgpQGR4lvFzVcfd2NR/y8927k/qqk153nQ9dAktiHq6yOU/im/+4mRDGSaBUorzAzu8T2b\n" +
-  "gmmkTPiab+ci2hC6X5L8GCcKqKpE+i4stPtGmggDg3KriORqcsnlZR9uKg+ds+g75AxuetpX/dfr\n" +
-  "eYteIAbTdgtsApWjluTLdlHRKJ2hGvxEok3MenaoDT2/F08iiFD9rrbskFBKW5+VQarKD7JK/oCZ\n" +
-  "TqNGFav4c0JqwmZ2sQomFd2TkuzbqV9UIlKRcF0T6kjsbgNs2d1s/OsNA/+mgxKb8amTD8UmTDGy\n" +
-  "Y5lhcucqZJnSuOl14nypqZoaqsNW2xCaPINStnuWt6yHd6i58mcLlEOzrz5z+kI2sSXFCjEmN1Zn\n" +
-  "uqMLfdb3ic1nobc6HmZP9qBVFCVMLDMNpkGMvQQxahByCp0OLna9XvNRiYuoP1Vzv9s6xiQFlpJI\n" +
-  "qkuNKgPlV5EQ9GooFW5Hd4RcUXSfGenmHmMWOeMRFeNYGkS9y8RsZteEBt8w9DeiQyJ50hBs37vm\n" +
-  "ExH8nYQKE3vwO9D8owrXieqWfo1IhR5kX9tUoqzVegJ5a9KK8GfaZXINFHDk6Y54jzJ0fFfy1tb0\n" +
-  "Nokb+Clsi7n2l9GkLqq+CxnCRelwXQIDAJ3Zo2MwYTAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB\n" +
-  "/wQEAwIBBjAdBgNVHQ4EFgQU587GT/wWZ5b6SqMHwQSny2re2kcwHwYDVR0jBBgwFoAU587GT/wW\n" +
-  "Z5b6SqMHwQSny2re2kcwDQYJKoZIhvcNAQEFBQADggIBAJuYml2+8ygjdsZs93/mQJ7ANtyVDR2t\n" +
-  "FcU22NU57/IeIl6zgrRdu0waypIN30ckHrMk2pGI6YNw3ZPX6bqz3xZaPt7gyPvT/Wwp+BVGoGgm\n" +
-  "zJNSroIBk5DKd8pNSe/iWtkqvTDOTLKBtjDOWU/aWR1qeqRFsIImgYZ29fUQALjuswnoT4cCB64k\n" +
-  "XPBfrAowzIpAoHMEwfuJJPaaHFy3PApnNgUIMbOv2AFoKuB4j3TeuFGkjGwgPaL7s9QJ/XvCgKqT\n" +
-  "bCmYIai7FvOpEl90tYeY8pUm3zTvilORiF0alKM/fCL414i6poyWqD1SNGKfAB5UVUJnxk1Gj7sU\n" +
-  "RT0KlhaOEKGXmdXTMIXM3rRyt7yKPBgpaP3ccQfuJDlq+u2lrDgv+R4QDgZxGhBM/nV+/x5XOULK\n" +
-  "1+EVoVZVWRvRo68R2E7DpSvvkL/A7IITW43WciyTTo9qKd+FPNMN4KIYEsxVL0e3p5sC/kH2iExt\n" +
-  "2qkBR4NkJ2IQgtYSe14DHzSpyZH+r11thie3I6p1GMog57AP14kOpmciY/SDQSsGS7tY1dHXt7kQ\n" +
-  "Y9iJSrSq3RZj9W6+YKH47ejWkE8axsWgKdOnIaj1Wjz3x0miIZpKlVIglnKaZsv30oZDfCK+lvm9\n" +
-  "AahH3eU7QPl1K5srRmSGjR70j/sHd9DqSaIcjVIUpgqT\n" +
-  "-----END CERTIFICATE-----\n",
-
   // certSIGN ROOT CA
   "-----BEGIN CERTIFICATE-----\n" +
   "MIIDODCCAiCgAwIBAgIGIAYFFnACMA0GCSqGSIb3DQEBBQUAMDsxCzAJBgNVBAYTAlJPMREwDwYD\n" +
@@ -2068,33 +1906,6 @@ var cas = module.exports = [
   "66+KAQ==\n" +
   "-----END CERTIFICATE-----\n",
 
-  // Juur-SK
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIIE5jCCA86gAwIBAgIEO45L/DANBgkqhkiG9w0BAQUFADBdMRgwFgYJKoZIhvcNAQkBFglwa2lA\n" +
-  "c2suZWUxCzAJBgNVBAYTAkVFMSIwIAYDVQQKExlBUyBTZXJ0aWZpdHNlZXJpbWlza2Vza3VzMRAw\n" +
-  "DgYDVQQDEwdKdXVyLVNLMB4XDTAxMDgzMDE0MjMwMVoXDTE2MDgyNjE0MjMwMVowXTEYMBYGCSqG\n" +
-  "SIb3DQEJARYJcGtpQHNrLmVlMQswCQYDVQQGEwJFRTEiMCAGA1UEChMZQVMgU2VydGlmaXRzZWVy\n" +
-  "aW1pc2tlc2t1czEQMA4GA1UEAxMHSnV1ci1TSzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\n" +
-  "ggEBAIFxNj4zB9bjMI0TfncyRsvPGbJgMUaXhvSYRqTCZUXP00B841oiqBB4M8yIsdOBSvZiF3tf\n" +
-  "TQou0M+LI+5PAk676w7KvRhj6IAcjeEcjT3g/1tf6mTll+g/mX8MCgkzABpTpyHhOEvWgxutr2TC\n" +
-  "+Rx6jGZITWYfGAriPrsfB2WThbkasLnE+w0R9vXW+RvHLCu3GFH+4Hv2qEivbDtPL+/40UceJlfw\n" +
-  "UR0zlv/vWT3aTdEVNMfqPxZIe5EcgEMPPbgFPtGzlc3Yyg/CQ2fbt5PgIoIuvvVoKIO5wTtpeyDa\n" +
-  "Tpxt4brNj3pssAki14sL2xzVWiZbDcDq5WDQn/413z8CAwEAAaOCAawwggGoMA8GA1UdEwEB/wQF\n" +
-  "MAMBAf8wggEWBgNVHSAEggENMIIBCTCCAQUGCisGAQQBzh8BAQEwgfYwgdAGCCsGAQUFBwICMIHD\n" +
-  "HoHAAFMAZQBlACAAcwBlAHIAdABpAGYAaQBrAGEAYQB0ACAAbwBuACAAdgDkAGwAagBhAHMAdABh\n" +
-  "AHQAdQBkACAAQQBTAC0AaQBzACAAUwBlAHIAdABpAGYAaQB0AHMAZQBlAHIAaQBtAGkAcwBrAGUA\n" +
-  "cwBrAHUAcwAgAGEAbABhAG0ALQBTAEsAIABzAGUAcgB0AGkAZgBpAGsAYQBhAHQAaQBkAGUAIABr\n" +
-  "AGkAbgBuAGkAdABhAG0AaQBzAGUAawBzMCEGCCsGAQUFBwIBFhVodHRwOi8vd3d3LnNrLmVlL2Nw\n" +
-  "cy8wKwYDVR0fBCQwIjAgoB6gHIYaaHR0cDovL3d3dy5zay5lZS9qdXVyL2NybC8wHQYDVR0OBBYE\n" +
-  "FASqekej5ImvGs8KQKcYP2/v6X2+MB8GA1UdIwQYMBaAFASqekej5ImvGs8KQKcYP2/v6X2+MA4G\n" +
-  "A1UdDwEB/wQEAwIB5jANBgkqhkiG9w0BAQUFAAOCAQEAe8EYlFOiCfP+JmeaUOTDBS8rNXiRTHyo\n" +
-  "ERF5TElZrMj3hWVcRrs7EKACr81Ptcw2Kuxd/u+gkcm2k298gFTsxwhwDY77guwqYHhpNjbRxZyL\n" +
-  "abVAyJRld/JXIWY7zoVAtjNjGr95HvxcHdMdkxuLDF2FvZkwMhgJkVLpfKG6/2SSmuz+Ne6ML678\n" +
-  "IIbsSt4beDI3poHSna9aEhbKmVv8b20OxaAehsmR0FyYgl9jDIpaq9iVpszLita/ZEuOyoqysOkh\n" +
-  "Mp6qqIWYNIE5ITuoOlIyPfZrN4YGWhWY3PARZv40ILcD9EEQfTmEeZZyY7aWAuVrua0ZTbvGRNs2\n" +
-  "yyqcjg==\n" +
-  "-----END CERTIFICATE-----\n",
-
   // Hongkong Post Root CA 1
   "-----BEGIN CERTIFICATE-----\n" +
   "MIIDMDCCAhigAwIBAgICA+gwDQYJKoZIhvcNAQEFBQAwRzELMAkGA1UEBhMCSEsxFjAUBgNVBAoT\n" +
@@ -2162,21 +1973,6 @@ var cas = module.exports = [
   "I2bw/FWAp/tmGYI1Z2JwOV5vx+qQQEQIHriy1tvuWacNGHk0vFQYXlPKNFHtRQrmjseCNj6nOGOp\n" +
   "MCwXEGCSn1WHElkQwg9naRHMTh5+Spqtr0CodaxWkHS4oJyleW/c6RrIaQXpuvoDs3zk4E7Czp3o\n" +
   "tkYNbn5XOmeUwssfnHdKZ05phkOTOPu220+DkdRgfks+KzgHVZhepA==\n" +
-  "-----END CERTIFICATE-----\n",
-
-  // Verisign Class 1 Public Primary Certification Authority
-  "-----BEGIN CERTIFICATE-----\n" +
-  "MIICPDCCAaUCED9pHoGc8JpK83P/uUii5N0wDQYJKoZIhvcNAQEFBQAwXzELMAkGA1UEBhMCVVMx\n" +
-  "FzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFzcyAxIFB1YmxpYyBQcmltYXJ5\n" +
-  "IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTk2MDEyOTAwMDAwMFoXDTI4MDgwMjIzNTk1OVow\n" +
-  "XzELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFzcyAx\n" +
-  "IFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIGfMA0GCSqGSIb3DQEBAQUA\n" +
-  "A4GNADCBiQKBgQDlGb9to1ZhLZlIcfZn3rmN67eehoAKkQ76OCWvRoiC5XOooJskXQ0fzGVuDLDQ\n" +
-  "VoQYh5oGmxChc9+0WDlrbsH2FdWoqD+qEgaNMax/sDTXjzRniAnNFBHiTkVWaR94AoDa3EeRKbs2\n" +
-  "yWNcxeDXLYd7obcysHswuiovMaruo2fa2wIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAFgVKTk8d6Pa\n" +
-  "XCUDfGD67gmZPCcQcMgMCeazh88K4hiWNWLMv5sneYlfycQJ9M61Hd8qveXbhpxoJeUwfLaJFf5n\n" +
-  "0a3hUKw8fGJLj7qE1xIVGx/KXQ/BUpQqEZnae88MNhPVNdwQGVnqlMEAv3WP2fr9dgTbYruQagPZ\n" +
-  "RjXZ+Hxb\n" +
   "-----END CERTIFICATE-----\n",
 
   // Microsec e-Szigno Root CA 2009
@@ -4294,19 +4090,42 @@ var cas = module.exports = [
   "m+kXQ99b21/+jh5Xos1AnX5iItreGCc=\n" +
   "-----END CERTIFICATE-----\n"
 ];
-module.exports.rootCas = cas;
-module.exports.inject = function () {
-  var opts = require('https').globalAgent.options;
-  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }
+module.exports.rootCas = module.exports = originalCas.slice(0);
+module.exports.rootCas.inject = function (/*context*/) {
+  var rootCas = this || module.exports.rootCas;
+  var opts = /*context ||*/ require('https').globalAgent.options;
+  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(rootCas); }
   opts.ca.__injected = true;
-  return module.exports;
+  return rootCas;
 };
-module.exports.addFile = function (filepath) {
-  var opts = require('https').globalAgent.options;
-  var root = filepath[0] === '/' ? '/' : '';
+module.exports.rootCas.addFile = function (filepath) {
+  // BEGIN TODO
+  // What is this filepath stuff all about?
+  // (maybe be a leftover MS Windows hack ??)
+  // Can we get rid of it?
+  var path = require('path');
+  var root = (filepath[0] === '/' ? '/' : '');
   var filepaths = filepath.split(/\//g);
   if (root) { filepaths.unshift(root); }
-  opts.ca = opts.ca || [];
-  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepaths)));
-  return module.exports;
+  filepath = path.join.apply(null, filepaths);
+  // END TODO
+
+  var httpsOpts = require('https').globalAgent.options;
+  var rootCas = this || module.exports.rootCas;
+  var buf = require('fs').readFileSync(filepath);
+  rootCas.push(buf);
+  // backwards compat
+  if (rootCas !== httpsOpts.ca) {
+    httpsOpts.ca = httpsOpts.ca || [];
+    httpsOpts.ca.push(buf);
+  }
+  return rootCas;
+};
+module.exports.create = function () {
+  var rootCas = originalCas.slice(0);
+
+  rootCas.inject = module.exports.inject;
+  rootCas.addFile = module.exports.addFile;
+
+  return rootCas;
 };

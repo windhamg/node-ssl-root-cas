@@ -14,7 +14,7 @@ module.exports.rootCas.inject = function (/*context*/) {
   var opts = /*context ||*/ require('https').globalAgent.options;
   if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(rootCas); }
   opts.ca.__injected = true;
-  return module.exports;
+  return rootCas;
 };
 module.exports.rootCas.addFile = function (filepath) {
   // BEGIN TODO
@@ -37,7 +37,7 @@ module.exports.rootCas.addFile = function (filepath) {
     httpsOpts.ca = httpsOpts.ca || [];
     httpsOpts.ca.push(buf);
   }
-  return module.exports;
+  return rootCas;
 };
 module.exports.create = function () {
   var rootCas = originalCas.slice(0);

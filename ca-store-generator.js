@@ -6,17 +6,9 @@ var fs = require('fs')
   , path = require('path')
   , request = require('request')
   , CERTDB_URL = 'https://mxr.mozilla.org/nss/source/lib/ckfw/builtins/certdata.txt?raw=1'
-  , HEADER
   , outputFile
   , outputPemsDir
   ;
-
-HEADER =
-  "/**\n" +
-  " * Mozilla's root CA store\n" +
-  " *\n" +
-  " * generated from " + CERTDB_URL + "\n" +
-  " */\n\n";
 
 function Certificate() {
   this.name = null;
@@ -156,26 +148,9 @@ function dumpCerts(certs, filename, pemsDir) {
 
   fs.writeFileSync(
     filename
-  , HEADER
-      + 'var cas = module.exports = [\n'
-      + certs.map(function (cert) { return cert.quasiPEM().value; }).join(',\n\n')
-      + '\n];\n'
-      + "module.exports.rootCas = cas;\n"
-      + "module.exports.inject = function () {\n"
-      + "  var opts = require('https').globalAgent.options;\n"
-      + "  if (!opts.ca || !opts.ca.__injected) { opts.ca = (opts.ca||[]).concat(cas); }\n"
-      + "  opts.ca.__injected = true;\n"
-      + "  return module.exports;\n"
-      + "};\n"
-      + "module.exports.addFile = function (filepath) {\n"
-      + "  var opts = require('https').globalAgent.options;\n"
-      + "  var root = filepath[0] === '/' ? '/' : '';\n"
-      + "  var filepaths = filepath.split(/\\//g);\n"
-      + "  if (root) { filepaths.unshift(root); }\n"
-      + "  opts.ca = opts.ca || [];\n"
-      + "  opts.ca.push(require('fs').readFileSync(require('path').join.apply(null, filepaths)));\n"
-      + "  return module.exports;\n"
-      + "};\n"
+  , fs.readFileSync(path.join(__dirname, 'ssl-root-cas.tpl.js'), 'utf8')
+      .replace(/\/\*TPL\*\//, certs.map(function (cert) { return cert.quasiPEM().value; }).join(',\n\n'))
+  , 'utf8'
   );
   console.info("Wrote '" + filename.replace(/'/g, "\\'") + "'.");
 }

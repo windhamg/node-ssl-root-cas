@@ -4090,7 +4090,7 @@ var originalCas = [
   "m+kXQ99b21/+jh5Xos1AnX5iItreGCc=\n" +
   "-----END CERTIFICATE-----\n"
 ];
-module.exports = originalCas.slice(0);
+module.exports = originalCas.slice(0); // backwards compat
 module.exports.rootCas = module.exports;
 module.exports.rootCas.inject = function (/*context*/) {
   var rootCas = this || module.exports.rootCas;

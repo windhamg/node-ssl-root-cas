@@ -353,7 +353,7 @@ That created a signing request with a sha-256 hash.
 
 When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least for the purposes of this mini-tutorial).
 
-You **must** use a bundled certificate for your server (the server and intermediates, **not** root), but you cannot use bundles `ca` property.
+You **must** use a bundled certificate for your server (the server and intermediates, **not** root) and pass that as the `cert` option, **not** as the `ca` (which is used for peer-certificate checking).
 
 ### A single HTTPS server
 

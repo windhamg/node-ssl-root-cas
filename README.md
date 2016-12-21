@@ -63,6 +63,15 @@ Note that you **should not** include the `root.pem` in the bundle and that the b
 
 Also note that in the case of cross-signed certificates (typically only issued from new root certificate authorities) there may be more than one intermediate at equal distances, in which case either in that tier may come first.
 
+IMPORTANT: Try this next
+========================
+
+As of node.js v7.3 the `NODE_EXTRA_CA_CERTS` environment variable can accomplish what most people intend to do with this package. See nodejs/node#9139
+
+```bash
+NODE_EXTRA_CA_CERTS='./path/to/root-cas.pem' node example.js
+```
+
 SSL Root CAs
 =================
 

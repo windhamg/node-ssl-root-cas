@@ -238,6 +238,7 @@ var cas;
 
 cas = https.globalAgent.options.ca || [];
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
+https.globalAgent.options.ca = cas;
 ```
 
 ### rootCas

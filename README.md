@@ -63,6 +63,15 @@ Note that you **should not** include the `root.pem` in the bundle and that the b
 
 Also note that in the case of cross-signed certificates (typically only issued from new root certificate authorities) there may be more than one intermediate at equal distances, in which case either in that tier may come first.
 
+IMPORTANT: Try this next
+========================
+
+As of node.js v7.3 the `NODE_EXTRA_CA_CERTS` environment variable can accomplish what most people intend to do with this package. See nodejs/node#9139
+
+```bash
+NODE_EXTRA_CA_CERTS='./path/to/root-cas.pem' node example.js
+```
+
 SSL Root CAs
 =================
 
@@ -344,7 +353,7 @@ That created a signing request with a sha-256 hash.
 
 When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least for the purposes of this mini-tutorial).
 
-You **must** use a bundled certificate for your server (the server and intermediates, **not** root), but you cannot use bundles `ca` property.
+You **must** use a bundled certificate for your server (the server and intermediates, **not** root) and pass that as the `cert` option, **not** as the `ca` (which is used for peer-certificate checking).
 
 ### A single HTTPS server
 

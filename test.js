@@ -1,51 +1,56 @@
 'use strict';
 
+var invigilate = require('invigilate'),
+    log = invigilate(module);
+
+invigilate.loggers.default = console;
+
 testDefault();
 
 // backwards compat
 function testDefault() {
-  require('https').globalAgent.options.ca = null;
-  var rootCas = require('./latest');
-  var request = require('request');
-
-  require('https').globalAgent.options.ca = rootCas;
-  request.get('https://daplie.com/404.html', function (err, resp, body) {
-    if (err) {
-      throw err;
-    }
-
-    testInject();
-  });
+    require('https').globalAgent.options.ca = null;
+    var rootCas = require('./latest');
+    var request = require('request');
+    
+    require('https').globalAgent.options.ca = rootCas;
+    request.get('https://daplie.com/404.html', function (err, resp, body) {
+        if (err) {
+            throw err;
+        }
+        
+        testInject();
+    });
 }
 
 function testInject() {
-  require('https').globalAgent.options.ca = null;
-  var rootCas = require('./latest').inject();
-  var request = require('request');
-
-  require('https').globalAgent.options.ca = rootCas;
-  request.get('https://daplie.com/404.html', function (err, resp, body) {
-    if (err) {
-      throw err;
-    }
-
-    testCreate();
-  });
+    require('https').globalAgent.options.ca = null;
+    var rootCas = require('./latest').inject();
+    var request = require('request');
+    
+    require('https').globalAgent.options.ca = rootCas;
+    request.get('https://daplie.com/404.html', function (err, resp, body) {
+        if (err) {
+            throw err;
+        }
+        
+        testCreate();
+    });
 }
 
 function testCreate() {
-  require('https').globalAgent.options.ca = null;
-  var rootCas = require('./latest').create();
-  var request = require('request');
-
-  require('https').globalAgent.options.ca = rootCas;
-  request.get('https://daplie.com/404.html', function (err, resp, body) {
-    if (err) {
-      throw err;
-    }
-
-    console.log(body);
-  });
+    require('https').globalAgent.options.ca = null;
+    var rootCas = require('./latest').create();
+    var request = require('request');
+    
+    require('https').globalAgent.options.ca = rootCas;
+    request.get('https://daplie.com/404.html', function (err, resp, body) {
+        if (err) {
+            throw err;
+        }
+        
+        log.info(body);
+    });
 }
 
 // TODO test with a company certificate

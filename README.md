@@ -17,7 +17,7 @@ IMPORTANT: Try this first
 
 ```js
 // INCORRECT (but might still work)
-var server https.createServer({
+var server = https.createServer({
   key: fs.readFileSync('privkey.pem', 'ascii')
 , cert: fs.readFileSync('cert.pem', 'ascii')   // a PEM containing ONLY the SERVER certificate
 });
@@ -27,7 +27,7 @@ var server https.createServer({
 
 ```js
 // CORRECT (should always work)
-var server https.createServer({
+var server = https.createServer({
   key: fs.readFileSync('privkey.pem', 'ascii')
 , cert: fs.readFileSync('fullchain.pem', 'ascii') // a PEM containing the SERVER and ALL INTERMEDIATES
 });
@@ -59,14 +59,18 @@ cat \
  > fullchain.pem
 ```
 
-Note that you **should not** include the `root.pem` in the bundle and that the bundle should be constructed with the least authoritative certificate first - your server's certificate, followed by the furthest removed intermediate, and then the next closest to the root, etc.
+Note that you **should not** include the `root.pem` in the bundle and that the bundle should be constructed with the 
+least authoritative certificate first - your server's certificate, followed by the furthest removed intermediate, and 
+then the next closest to the root, etc.
 
-Also note that in the case of cross-signed certificates (typically only issued from new root certificate authorities) there may be more than one intermediate at equal distances, in which case either in that tier may come first.
+Also note that in the case of cross-signed certificates (typically only issued from new root certificate authorities) 
+there may be more than one intermediate at equal distances, in which case either in that tier may come first.
 
 IMPORTANT: Try this next
 ========================
 
-As of node.js v7.3 the `NODE_EXTRA_CA_CERTS` environment variable can accomplish what most people intend to do with this package. See nodejs/node#9139
+As of node.js v7.3 the `NODE_EXTRA_CA_CERTS` environment variable can accomplish what most people intend to do with this 
+package. See nodejs/node#9139
 
 ```bash
 NODE_EXTRA_CA_CERTS='./path/to/root-cas.pem' node example.js
@@ -75,7 +79,8 @@ NODE_EXTRA_CA_CERTS='./path/to/root-cas.pem' node example.js
 SSL Root CAs
 =================
 
-The module you need to solve node's SSL woes when including a custom certificate. Particularly, if you need to add a **non-standard Root CA**, then this is the right module for you.
+The module you need to solve node's SSL woes when including a custom certificate. Particularly, if you need to add a 
+**non-standard Root CA**, then this is the right module for you.
 
 Let's say you're trying to connect to a site with a cheap-o SSL cert -
 such as RapidSSL certificate from [name.com](http://name.com) (the **best** place to get your domains, btw) -
@@ -87,7 +92,8 @@ out you'll be able to connect to that site just fine, but now when you try to co
 
 * `CERT_UNTRUSTED` - the common root CAs are missing, this module fixes that.
 * `UNABLE_TO_VERIFY_LEAF_SIGNATURE` could be either the same as the above, or the below
-* `unable to verify the first certificate` - the intermediate certificate wasn't bundled along with the server certificate, you'll need to fix that
+* `unable to verify the first certificate` - the intermediate certificate wasn't bundled along with the server 
+certificate, you'll need to fix that
 
 This module is the solution to your woes!
 
@@ -116,7 +122,7 @@ and [OpenSSL](https://www.openssl.org/support/faq.html#USER16)\*:
 Install
 =====
 
-```javascript
+```bash
 npm install ssl-root-cas --save
 ```
 
@@ -127,11 +133,25 @@ General usage:
 
 ```js
 'use strict';
-var rootCas = require('ssl-root-cas/latest').create();
+// pre-downloaded with package install
+var rootCas = require('ssl-root-cas');
 
-// default for all https requests
+// will be downloaded if not already present
+var latest = require('ssl-root-cas/latest');
+
+// if latest certs were not already downloaded:
+rootCas === latest;
+
+// default for all https requests, adds the rootCas to https opts ca list
 // (whether using https directly, request, or another module)
-require('https').globalAgent.options.ca = rootCas;
+rootCas.inject();
+
+// adding another cert, 
+// will be automatically injected if inject() had already been called
+rootCas.addCert(fs.readFileSync('path/to/cert.pem'));
+
+// does nothing if already called
+rootCas.inject();
 ```
 
 ### CERT_UNTRUSTED
@@ -145,10 +165,9 @@ If you have to run an old version of node, but need the latest CAs
 then this alone should solve your problems:
 
 ```javascript
-var rootCas = require('ssl-root-cas/latest').create();
-
 // fixes ALL https requests (whether using https directly or the request module)
-require('https').globalAgent.options.ca = rootCas;
+var rootCas = require('ssl-root-cas/latest').inject();
+
 
 var secureContext = require('tls').createSecureContext({
   ca: rootCas
@@ -161,12 +180,12 @@ var secureContext = require('tls').createSecureContext({
 If you have a newer version of node and still get `CERT_UNTRUSTED`, it's probably
 because you're testing against a self-signed or company-issued certificate.
 
-Follow the instructions above, but also use `addFile`, like this:
+Follow the instructions above, but also use `addCert`, like this:
 
-```
-var rootCas = require('ssl-root-cas/latest').create();
-
-rootCas.addFile(__dirname + '/ssl/00-company-root-ca.pem');
+```javascript
+var rootCas = require('ssl-root-cas/latest')
+    .inject()
+    .addCert(fs.readFileSync(__dirname + '/ssl/00-company-root-ca.pem'));
 ```
 
 ### unable to verify the first certificate
@@ -182,15 +201,14 @@ You can work around this by adding the missing certificate:
 ```javascript
 'use strict';
 
-var rootCas = require('ssl-root-cas/latest').create();
-
-rootCas
-  .addFile(__dirname + '/ssl/01-cheap-ssl-intermediary-a.pem')
-  .addFile(__dirname + '/ssl/02-cheap-ssl-intermediary-b.pem')
-  ;
+var rootCas = require('ssl-root-cas/latest');
 
 // will work with all https requests will all libraries (i.e. request.js)
-require('https').globalAgent.options.ca = rootCas;
+rootCas
+  .addCert(fs.readFileSync(__dirname + '/ssl/01-cheap-ssl-intermediary-a.pem'))
+  .addCert(fs.readFileSync(__dirname + '/ssl/02-cheap-ssl-intermediary-b.pem'))
+  .inject();
+
 ```
 
 ### using the latest certificates
@@ -199,63 +217,64 @@ For the sake of version consistency this package ships with the CA certs that we
 available at the time it was published,
 but for the sake of security I recommend you use the latest ones.
 
-If you want the latest certificates (downloaded as part of the postinstall process),
-you can require those like so:
+If you want the latest certificates, you can require those like so:
 
+```javascript
+var rootCas = require('ssl-root-cas/latest').inject();
 ```
-var rootCas = require('ssl-root-cas/latest').create();
-
-require('https').globalAgent.options.ca = rootCas;
-```
+However if they were not previously downloaded, the shipped list will be used, and the
+process needs to be restarted in order to use the latest ones.
 
 You can use the ones that shippped with package like so:
-
+```javascript
+var rootCas = require('ssl-root-cas').inject();
 ```
-var rootCas = require('ssl-root-cas').create();
 
-require('https').globalAgent.options.ca = rootCas;
+You can also conditionally check whether the latest are available and have them injected asynchronously:
+
+```javascript
+var rootCas = require('ssl-root-cas');
+var latest = require('ssl-root-cas/latest');
+if (rootCas === latest) rootCas.latest().then(function (newLatest) {
+    newLatest.inject();
+});
 ```
+This also works if at any time you just want the latest root cas without restarting your process.
 
 API
 ---
 
-### addFile(filepath)
+### require('ssl-root-cas')
 
-This is just a convenience method so that you don't
-have to require `fs` and `path` if you don't need them.
+Returns an array decorated with the methods listed below for managing its presence in `https.globalAgent.options.ca`.
+The list can be iterated and otherwise operated on as if it were a normal array.
 
+### rootCas.inject()
+
+I thought it might be rude to modify `https.globalAgent.options.ca` on `require`, so I afford you the opportunity to 
+`inject()` the certs at your leisure.
+
+`inject()` keeps track of whether or not it's been run on each list `.create()`-ed, so no worries about calling it 
+twice. Returns the list for chaining.
+
+### rootCas.addCert(cert)
+
+This pushes a new cert to the list, automatically injecting it if `.inject()` was already called. The list is returned 
+for chaining.
 ```javascript
 require('ssl-root-cas/latest')
-  .addFile(__dirname + '/ssl/03-cheap-ssl-site.pem')
-  ;
+  .addCert(fs.readFileSync(__dirname + '/ssl/03-cheap-ssl-site.pem'));
 ```
 
-is the same as
+### rootCas.create(list)
 
-```javascript
-var https = require('https');
-var cas;
+Returns a new ssl-root-cas decorated array using a clone of the provided array, or simply cloning the existing list if 
+no array is provided.
 
-cas = https.globalAgent.options.ca || [];
-cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
-```
+### rootCas.latest()
 
-### rootCas
-
-If for some reason you just want to look at the array of Root CAs without actually injecting
-them, or you just prefer to
-`https.globalAgent.options.ca = require('ssl-root-cas').rootCas;`
-yourself, well, you can.
-
-### inject()
-
-(deprecated)
-
-I thought it might be rude to modify `https.globalAgent.options.ca` on `require`,
-so I afford you the opportunity to `inject()` the certs at your leisure.
-
-`inject()` keeps track of whether or not it's been run, so no worries about calling it twice.
-
+Forces a download of the latest CAs, returing a promise that resolves to a new ssl-root-cas list once the download 
+completes.
 
 Kinda Bad Ideas
 =====
@@ -285,7 +304,8 @@ Kinda Bad Ideas
     });
 ```
 
-By using an `agent` with `rejectUnauthorized` you at limit the security vulnerability to the requests that deal with that one site instead of making your entire node process completely, utterly insecure.
+By using an `agent` with `rejectUnauthorized` you at limit the security vulnerability to the requests that deal with 
+that one site instead of making your entire node process completely, utterly insecure.
 
 ### Other Options
 
@@ -324,7 +344,9 @@ export NODE_TLS_REJECT_UNAUTHORIZED="0"
 node my-service.js
 ```
 
-It's unfortunate that `process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';` is even documented. It should only be used for debugging and should never make it into in sort of code that runs in the wild. Almost every library that runs atop `https` has a way of passing agent options through. Those that don't should be fixed.
+It's unfortunate that `process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';` is even documented. It should only be used for 
+debugging and should never make it into in sort of code that runs in the wild. Almost every library that runs atop 
+`https` has a way of passing agent options through. Those that don't should be fixed.
 
 
 # Appendix
@@ -351,9 +373,11 @@ cat server.csr
 
 That created a signing request with a sha-256 hash.
 
-When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least for the purposes of this mini-tutorial).
+When you submit that to the likes of RapidSSL you'll get back an X.509 that you should call `server.crt.pem` (at least 
+for the purposes of this mini-tutorial).
 
-You **must** use a bundled certificate for your server (the server and intermediates, **not** root) and pass that as the `cert` option, **not** as the `ca` (which is used for peer-certificate checking).
+You **must** use a bundled certificate for your server (the server and intermediates, **not** root) and pass that as 
+the `cert` option, **not** as the `ca` (which is used for peer-certificate checking).
 
 ### A single HTTPS server
 
@@ -372,7 +396,7 @@ var port = 4080;
 
 require('ssl-root-cas/latest')
   .inject()
-  .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
+  .addCert(fs.readFileSync(__dirname + '/ssl/Geotrust Cross Root CA.txt'))
   // NOTE: intermediate certificates should be bundled with
   // the site's certificate, which is issued by the server
   // when you connect. You only need to add them here if the
@@ -456,7 +480,7 @@ var domains = ['aj.the.dj', 'ballprovo.com'];
 
 require('ssl-root-cas/latest')
   .inject()
-  .addFile(__dirname + '/ssl/Geotrust Cross Root CA.txt')
+  .addCert(fs.readFileSync(__dirname + '/ssl/Geotrust Cross Root CA.txt'))
   //.addFile(__dirname + '/ssl/Rapid SSL CA.txt')
   ;
 

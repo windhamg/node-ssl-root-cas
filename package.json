@@ -25,10 +25,13 @@
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "postinstall": "ca-store generate stores/ssl-root-cas.js"
+    "prepublish": "ca-store generate stores/ssl-root-cas.js"
   },
   "dependencies": {
     "invigilate": "^2.1.0",
     "ca-store": "^1.0.0"
+  },
+  "devDependencies": {
+    "bluebird": "^3.4.7"
   }
 }

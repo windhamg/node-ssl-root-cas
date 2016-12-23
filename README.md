@@ -262,8 +262,18 @@ twice. Returns the list for chaining.
 This pushes a new cert to the list, automatically injecting it if `.inject()` was already called. The list is returned 
 for chaining.
 ```javascript
-require('ssl-root-cas/latest')
+require('ssl-root-cas').create([])
+  .inject()
   .addCert(fs.readFileSync(__dirname + '/ssl/03-cheap-ssl-site.pem'));
+```
+is the same as:
+```javascript
+var https = require('https');
+var cas;
+
+cas = https.globalAgent.options.ca || [];
+cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
+https.globalAgent.options.ca = cas;
 ```
 
 ### rootCas.create(list)

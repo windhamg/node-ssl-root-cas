@@ -12,7 +12,7 @@ log.default = console;
 if (!latest.length) {
     log.debug('Needs latest SSL Root Certificate Authority data', originalStore.latestFile);
     module.exports = originalStore;
-    CaStore.generate(originalStore.latestFile).then(success).catch(error);
+    originalStore.latest().then(success).catch(error);
 } else {
     module.exports = originalStore.create(latest);
 }

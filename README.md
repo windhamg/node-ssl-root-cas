@@ -264,7 +264,7 @@ for chaining.
 ```javascript
 require('ssl-root-cas').create([])
   .inject()
-  .addCert(fs.readFileSync(__dirname + '/ssl/03-cheap-ssl-site.pem'));
+  .addCert(fs.readFileSync(path.join(__dirname, '/ssl', '03-cheap-ssl-site.pem')));
 ```
 is the same as:
 ```javascript
@@ -275,6 +275,17 @@ cas = https.globalAgent.options.ca || [];
 cas.push(fs.readFileSync(path.join(__dirname, 'ssl', '03-cheap-ssl-site.pem')));
 https.globalAgent.options.ca = cas;
 ```
+
+### ~~rootCas.addFile(filepath)~~
+*Deprecated since 2.0.0, use rootCas.addCert() instead*
+ 
+This is just a convenience method so that you don't have to require `fs` and `path` if you don't need them.
+
+```javascript
+require('ssl-root-cas/latest')
+  .addFile(__dirname + '/ssl/03-cheap-ssl-site.pem');
+```
+
 
 ### rootCas.create(list)
 

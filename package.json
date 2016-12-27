@@ -25,13 +25,17 @@
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "prepublish": "ca-store generate stores/ssl-root-cas.js"
+    "clean": "rimraf stores",
+    "build": "ca-store generate stores/ssl-root-cas.js",
+    "prepublish": "npm test && npm run clean && npm run build"
   },
   "dependencies": {
     "invigilate": "^2.1.0",
     "ca-store": "^1.0.0"
   },
   "devDependencies": {
-    "bluebird": "^3.4.7"
+    "bluebird": "^3.4.7",
+    "request": "^2.79.0",
+    "rimraf": "^2.5.4"
   }
 }

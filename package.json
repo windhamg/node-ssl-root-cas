@@ -1,6 +1,6 @@
 {
   "name": "ssl-root-cas",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "The module you need to solve node's SSL woes when including a custom certificate.",
   "main": "ssl-root-cas",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/coolaj86/node-ssl-root-cas.git"
+    "url": "git://git.daplie.com/Daplie/node-ssl-root-cas.git"
   },
   "keywords": [
     "SSL",
@@ -24,9 +24,9 @@
   ],
   "license": "Apache2",
   "bugs": {
-    "url": "https://github.com/coolaj86/node-ssl-root-cas/issues"
+    "url": "https://git.daplie.com/Daplie/node-ssl-root-cas/issues"
   },
-  "homepage": "https://github.com/coolaj86/node-ssl-root-cas",
+  "homepage": "https://git.daplie.com/Daplie/node-ssl-root-cas",
   "dependencies": {
     "bluebird": "^3.4.1",
     "request": "^2.47.0"

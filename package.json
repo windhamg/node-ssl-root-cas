@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/coolaj86/node-ssl-root-cas",
   "dependencies": {
-    "es6-promise": "^3.2.1",
-    "request": "^2.47.0"
+    "es6-promise": "~3.2.1",
+    "request": "~2.47.0"
   }
 }
